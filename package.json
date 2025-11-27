@@ -1,0 +1,58 @@
+{
+  "name": "@polygon/polygon-kit",
+  "version": "0.1.0",
+  "description": "React components and TypeScript utilities for building onchain apps on Polygon",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "polygon",
+    "web3",
+    "react",
+    "ethereum",
+    "blockchain",
+    "wallet",
+    "dapp"
+  ],
+  "author": "Polygon",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "wagmi": "^2.0.0",
+    "viem": "^2.0.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@tanstack/react-query": "^5.0.0",
+    "clsx": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "viem": "^2.0.0",
+    "wagmi": "^2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
