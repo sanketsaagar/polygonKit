@@ -3,11 +3,21 @@
   "version": "0.1.0",
   "description": "React components and TypeScript utilities for building onchain apps on Polygon",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanketsaagar/polygonKit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sanketsaagar/polygonKit/issues"
+  },
+  "homepage": "https://github.com/sanketsaagar/polygonKit#readme",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",

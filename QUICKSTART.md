@@ -20,6 +20,11 @@ cd my-polygon-app
 ### Step 2: Install PolygonKit and dependencies
 
 ```bash
+npm install github:sanketsaagar/polygonKit wagmi viem @tanstack/react-query
+```
+
+Or when published to NPM:
+```bash
 npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
 ```
 
