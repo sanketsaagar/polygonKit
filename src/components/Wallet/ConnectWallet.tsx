@@ -1,4 +1,5 @@
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
+import { useAppKit } from '@reown/appkit/react';
 import { ConnectWalletProps } from '../../types';
 import { useEffect } from 'react';
 
@@ -9,8 +10,8 @@ export function ConnectWallet({
   onDisconnect: onDisconnectCallback,
 }: ConnectWalletProps) {
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
+  const { open } = useAppKit();
 
   useEffect(() => {
     if (isConnected && address && onConnect) {
@@ -19,10 +20,7 @@ export function ConnectWallet({
   }, [isConnected, address, onConnect]);
 
   const handleConnect = () => {
-    const injectedConnector = connectors.find((c) => c.id === 'injected');
-    if (injectedConnector) {
-      connect({ connector: injectedConnector });
-    }
+    open();
   };
 
   const handleDisconnect = () => {

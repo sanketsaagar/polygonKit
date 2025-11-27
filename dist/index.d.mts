@@ -7,6 +7,10 @@ interface PolygonKitConfig {
     projectId?: string;
     rpcUrl?: string;
     chains?: Chain[];
+    appName?: string;
+    appDescription?: string;
+    appUrl?: string;
+    appIcons?: string[];
 }
 interface Chain {
     id: number;

@@ -50,8 +50,9 @@ module.exports = __toCommonJS(index_exports);
 
 // src/components/PolygonKitProvider.tsx
 var import_wagmi = require("wagmi");
-var import_connectors = require("wagmi/connectors");
 var import_react_query = require("@tanstack/react-query");
+var import_react = require("@reown/appkit/react");
+var import_appkit_adapter_wagmi = require("@reown/appkit-adapter-wagmi");
 
 // src/constants/chains.ts
 var polygon = {
@@ -155,27 +156,32 @@ var defaultChains = [polygon, polygonAmoy, polygonZkEVM];
 // src/components/PolygonKitProvider.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
 var queryClient = new import_react_query.QueryClient();
+var projectId = process.env.VITE_PROJECT_ID || "f6bd6e2911b56f5ac3bc8b2d0e2d7ad5";
 function PolygonKitProvider({
   children,
   config: userConfig
 }) {
   const chains = userConfig?.chains || [polygon, polygonAmoy, polygonZkEVM];
-  const config = (0, import_wagmi.createConfig)({
-    chains,
-    connectors: [
-      (0, import_connectors.injected)(),
-      (0, import_connectors.coinbaseWallet)({ appName: "PolygonKit App" }),
-      (0, import_connectors.walletConnect)({
-        projectId: userConfig?.projectId || "YOUR_PROJECT_ID",
-        showQrModal: true
-      })
-    ],
-    transports: chains.reduce((acc, chain) => {
-      acc[chain.id] = (0, import_wagmi.http)(chain.rpcUrls.default.http[0]);
-      return acc;
-    }, {})
+  const metadata = {
+    name: userConfig?.appName || "PolygonKit App",
+    description: userConfig?.appDescription || "Your Polygon App",
+    url: userConfig?.appUrl || "https://polygon.technology",
+    icons: userConfig?.appIcons || ["https://avatars.githubusercontent.com/u/21101868"]
+  };
+  const wagmiAdapter = new import_appkit_adapter_wagmi.WagmiAdapter({
+    networks: chains,
+    projectId: userConfig?.projectId || projectId
   });
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_wagmi.WagmiProvider, { config, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react_query.QueryClientProvider, { client: queryClient, children }) });
+  (0, import_react.createAppKit)({
+    adapters: [wagmiAdapter],
+    networks: chains,
+    projectId: userConfig?.projectId || projectId,
+    metadata,
+    features: {
+      analytics: true
+    }
+  });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_wagmi.WagmiProvider, { config: wagmiAdapter.wagmiConfig, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react_query.QueryClientProvider, { client: queryClient, children }) });
 }
 
 // src/components/Wallet/Wallet.tsx
@@ -186,7 +192,8 @@ function Wallet({ children, className = "" }) {
 
 // src/components/Wallet/ConnectWallet.tsx
 var import_wagmi2 = require("wagmi");
-var import_react = require("react");
+var import_react2 = require("@reown/appkit/react");
+var import_react3 = require("react");
 var import_jsx_runtime3 = require("react/jsx-runtime");
 function ConnectWallet({
   children,
@@ -195,18 +202,15 @@ function ConnectWallet({
   onDisconnect: onDisconnectCallback
 }) {
   const { address, isConnected } = (0, import_wagmi2.useAccount)();
-  const { connect, connectors } = (0, import_wagmi2.useConnect)();
   const { disconnect } = (0, import_wagmi2.useDisconnect)();
-  (0, import_react.useEffect)(() => {
+  const { open } = (0, import_react2.useAppKit)();
+  (0, import_react3.useEffect)(() => {
     if (isConnected && address && onConnect) {
       onConnect(address);
     }
   }, [isConnected, address, onConnect]);
   const handleConnect = () => {
-    const injectedConnector = connectors.find((c) => c.id === "injected");
-    if (injectedConnector) {
-      connect({ connector: injectedConnector });
-    }
+    open();
   };
   const handleDisconnect = () => {
     disconnect();
@@ -228,7 +232,7 @@ function ConnectWallet({
 }
 
 // src/components/Wallet/WalletDropdown.tsx
-var import_react2 = require("react");
+var import_react4 = require("react");
 var import_wagmi3 = require("wagmi");
 
 // src/utils/format.ts
@@ -257,7 +261,7 @@ function truncateText(text, maxLength) {
 // src/components/Wallet/WalletDropdown.tsx
 var import_jsx_runtime4 = require("react/jsx-runtime");
 function WalletDropdown({ children, className = "" }) {
-  const [isOpen, setIsOpen] = (0, import_react2.useState)(false);
+  const [isOpen, setIsOpen] = (0, import_react4.useState)(false);
   const { address, isConnected, chain } = (0, import_wagmi3.useAccount)();
   const { disconnect } = (0, import_wagmi3.useDisconnect)();
   const { data: balance } = (0, import_wagmi3.useBalance)({ address });
@@ -419,7 +423,7 @@ function Transaction({
 }
 
 // src/components/Transaction/TransactionButton.tsx
-var import_react3 = require("react");
+var import_react5 = require("react");
 var import_wagmi7 = require("wagmi");
 var import_jsx_runtime9 = require("react/jsx-runtime");
 function TransactionButton({
@@ -430,7 +434,7 @@ function TransactionButton({
   onSuccess,
   onError
 }) {
-  const [isPending, setIsPending] = (0, import_react3.useState)(false);
+  const [isPending, setIsPending] = (0, import_react5.useState)(false);
   const { sendTransaction, data: hash } = (0, import_wagmi7.useSendTransaction)();
   const { isLoading: isConfirming } = (0, import_wagmi7.useWaitForTransactionReceipt)({
     hash
@@ -535,12 +539,12 @@ function TokenBalance({ address, token, className = "" }) {
 }
 
 // src/components/Swap/Swap.tsx
-var import_react4 = require("react");
+var import_react6 = require("react");
 var import_jsx_runtime13 = require("react/jsx-runtime");
 function Swap({ className = "", onSuccess, onError }) {
-  const [fromAmount, setFromAmount] = (0, import_react4.useState)("");
-  const [toAmount, setToAmount] = (0, import_react4.useState)("");
-  const [isLoading, setIsLoading] = (0, import_react4.useState)(false);
+  const [fromAmount, setFromAmount] = (0, import_react6.useState)("");
+  const [toAmount, setToAmount] = (0, import_react6.useState)("");
+  const [isLoading, setIsLoading] = (0, import_react6.useState)(false);
   const handleSwap = async () => {
     setIsLoading(true);
     try {

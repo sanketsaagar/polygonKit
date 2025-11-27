@@ -5,6 +5,10 @@ export interface PolygonKitConfig {
   projectId?: string;
   rpcUrl?: string;
   chains?: Chain[];
+  appName?: string;
+  appDescription?: string;
+  appUrl?: string;
+  appIcons?: string[];
 }
 
 export interface Chain {

@@ -1,7 +1,8 @@
 // src/components/PolygonKitProvider.tsx
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { injected, walletConnect, coinbaseWallet } from "wagmi/connectors";
+import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createAppKit } from "@reown/appkit/react";
+import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
 
 // src/constants/chains.ts
 var polygon = {
@@ -105,27 +106,32 @@ var defaultChains = [polygon, polygonAmoy, polygonZkEVM];
 // src/components/PolygonKitProvider.tsx
 import { jsx } from "react/jsx-runtime";
 var queryClient = new QueryClient();
+var projectId = process.env.VITE_PROJECT_ID || "f6bd6e2911b56f5ac3bc8b2d0e2d7ad5";
 function PolygonKitProvider({
   children,
   config: userConfig
 }) {
   const chains = userConfig?.chains || [polygon, polygonAmoy, polygonZkEVM];
-  const config = createConfig({
-    chains,
-    connectors: [
-      injected(),
-      coinbaseWallet({ appName: "PolygonKit App" }),
-      walletConnect({
-        projectId: userConfig?.projectId || "YOUR_PROJECT_ID",
-        showQrModal: true
-      })
-    ],
-    transports: chains.reduce((acc, chain) => {
-      acc[chain.id] = http(chain.rpcUrls.default.http[0]);
-      return acc;
-    }, {})
+  const metadata = {
+    name: userConfig?.appName || "PolygonKit App",
+    description: userConfig?.appDescription || "Your Polygon App",
+    url: userConfig?.appUrl || "https://polygon.technology",
+    icons: userConfig?.appIcons || ["https://avatars.githubusercontent.com/u/21101868"]
+  };
+  const wagmiAdapter = new WagmiAdapter({
+    networks: chains,
+    projectId: userConfig?.projectId || projectId
   });
-  return /* @__PURE__ */ jsx(WagmiProvider, { config, children: /* @__PURE__ */ jsx(QueryClientProvider, { client: queryClient, children }) });
+  createAppKit({
+    adapters: [wagmiAdapter],
+    networks: chains,
+    projectId: userConfig?.projectId || projectId,
+    metadata,
+    features: {
+      analytics: true
+    }
+  });
+  return /* @__PURE__ */ jsx(WagmiProvider, { config: wagmiAdapter.wagmiConfig, children: /* @__PURE__ */ jsx(QueryClientProvider, { client: queryClient, children }) });
 }
 
 // src/components/Wallet/Wallet.tsx
@@ -135,7 +141,8 @@ function Wallet({ children, className = "" }) {
 }
 
 // src/components/Wallet/ConnectWallet.tsx
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
+import { useAppKit } from "@reown/appkit/react";
 import { useEffect } from "react";
 import { jsx as jsx3 } from "react/jsx-runtime";
 function ConnectWallet({
@@ -145,18 +152,15 @@ function ConnectWallet({
   onDisconnect: onDisconnectCallback
 }) {
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
+  const { open } = useAppKit();
   useEffect(() => {
     if (isConnected && address && onConnect) {
       onConnect(address);
     }
   }, [isConnected, address, onConnect]);
   const handleConnect = () => {
-    const injectedConnector = connectors.find((c) => c.id === "injected");
-    if (injectedConnector) {
-      connect({ connector: injectedConnector });
-    }
+    open();
   };
   const handleDisconnect = () => {
     disconnect();
@@ -553,10 +557,10 @@ function Swap({ className = "", onSuccess, onError }) {
 }
 
 // src/hooks/usePolygonKit.ts
-import { useAccount as useAccount4, useBalance as useBalance4, useConnect as useConnect2, useDisconnect as useDisconnect3 } from "wagmi";
+import { useAccount as useAccount4, useBalance as useBalance4, useConnect, useDisconnect as useDisconnect3 } from "wagmi";
 function usePolygonKit() {
   const { address, isConnected, chain } = useAccount4();
-  const { connect, connectors } = useConnect2();
+  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect3();
   const { data: balance } = useBalance4({ address });
   const connectWallet = () => {
