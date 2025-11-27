@@ -1,0 +1,101 @@
+---
+title: 'Identity Components'
+description: 'Display user identity and wallet information'
+---
+
+## Overview
+
+Identity components help you display wallet addresses, avatars, names, and balances in your application.
+
+## Identity
+
+The main component for displaying user identity information.
+
+### Basic Usage
+
+```tsx
+import { Identity } from '@sanketsaagar/polygon-kit';
+
+function UserProfile() {
+  return <Identity address="0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7" />;
+}
+```
+
+### Props
+
+<ParamField path="address" type="Address" required>
+  The wallet address to display
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+<ParamField path="showAvatar" type="boolean" default="true">
+  Show the avatar
+</ParamField>
+
+<ParamField path="showAddress" type="boolean" default="true">
+  Show the address
+</ParamField>
+
+<ParamField path="showBalance" type="boolean" default="false">
+  Show the wallet balance
+</ParamField>
+
+### Examples
+
+Show address only:
+```tsx
+<Identity address={address} showAvatar={false} showBalance={false} />
+```
+
+Show everything:
+```tsx
+<Identity address={address} showAvatar showAddress showBalance />
+```
+
+## Avatar
+
+Display a generated avatar for an address.
+
+```tsx
+import { Avatar } from '@sanketsaagar/polygon-kit';
+
+<Avatar address="0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7" size={48} />
+```
+
+## Name
+
+Display a shortened address or ENS name.
+
+```tsx
+import { Name } from '@sanketsaagar/polygon-kit';
+
+<Name address="0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7" />
+```
+
+## Complete Example
+
+```tsx
+import { Identity, usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+function UserCard() {
+  const { address } = usePolygonKit();
+
+  if (!address) return null;
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow">
+      <Identity
+        address={address}
+        showAvatar
+        showAddress
+        showBalance
+        className="mb-4"
+      />
+      <p className="text-gray-600">Your wallet information</p>
+    </div>
+  );
+}
+```

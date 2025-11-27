@@ -1,0 +1,74 @@
+---
+title: 'parseTokenAmount'
+description: 'Parse user input to token amounts'
+---
+
+## Overview
+
+The `parseTokenAmount` utility function converts human-readable token amounts to wei (smallest unit).
+
+## Usage
+
+```tsx
+import { parseTokenAmount } from '@sanketsaagar/polygon-kit';
+
+const amount = parseTokenAmount('1.5', 18);
+// Returns: BigInt('1500000000000000000')
+```
+
+## Parameters
+
+<ParamField path="amount" type="string" required>
+  The human-readable amount (e.g., "1.5")
+</ParamField>
+
+<ParamField path="decimals" type="number" default="18">
+  The number of decimals for the token
+</ParamField>
+
+## Examples
+
+### Parse MATIC Amount
+
+```tsx
+parseTokenAmount('1', 18);
+// BigInt('1000000000000000000')
+
+parseTokenAmount('0.001', 18);
+// BigInt('1000000000000000')
+```
+
+### Parse USDC Amount
+
+```tsx
+parseTokenAmount('100', 6);
+// BigInt('100000000')
+```
+
+### In Form
+
+```tsx
+import { parseTokenAmount } from '@sanketsaagar/polygon-kit';
+import { useState } from 'react';
+
+function SendForm() {
+  const [amount, setAmount] = useState('');
+
+  const handleSend = () => {
+    const value = parseTokenAmount(amount, 18);
+    // Send transaction with value
+  };
+
+  return (
+    <div>
+      <input
+        type="number"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        placeholder="Amount"
+      />
+      <button onClick={handleSend}>Send</button>
+    </div>
+  );
+}
+```

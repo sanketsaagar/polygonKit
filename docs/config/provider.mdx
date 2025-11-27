@@ -1,0 +1,316 @@
+---
+title: 'PolygonKitProvider'
+description: 'Configure the PolygonKit provider for your application'
+---
+
+## Overview
+
+The `PolygonKitProvider` is the root component that provides blockchain connectivity and state management to your entire application. It sets up wagmi, React Query, and WalletConnect integration.
+
+## Basic Usage
+
+Wrap your application with the provider:
+
+```tsx
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+
+function App() {
+  return (
+    <PolygonKitProvider>
+      {/* Your app components */}
+    </PolygonKitProvider>
+  );
+}
+```
+
+## Configuration Options
+
+The provider accepts an optional `config` prop for customization:
+
+```tsx
+interface PolygonKitConfig {
+  chains?: Chain[];
+  projectId?: string;
+  appName?: string;
+  appDescription?: string;
+  appUrl?: string;
+  appIcons?: string[];
+}
+```
+
+### chains
+
+An array of blockchain networks your app supports. Defaults to Polygon PoS, Polygon Amoy, and Polygon zkEVM.
+
+```tsx
+import { polygon, polygonAmoy, polygonZkEVM } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygon, polygonAmoy, polygonZkEVM],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+<Accordion title="Available Polygon Chains">
+  - **polygon** (137) - Polygon PoS Mainnet
+  - **polygonAmoy** (80002) - Polygon Amoy Testnet
+  - **polygonZkEVM** (1101) - Polygon zkEVM Mainnet
+  - **polygonZkEvmTestnet** (1442) - Polygon zkEVM Testnet
+  - **polygonMumbai** (80001) - Polygon Mumbai Testnet (deprecated)
+</Accordion>
+
+### projectId
+
+Your WalletConnect Project ID. Required for WalletConnect functionality.
+
+```tsx
+<PolygonKitProvider
+  config={{
+    projectId: 'YOUR_WALLETCONNECT_PROJECT_ID',
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+<Card title="Get a Project ID" icon="link" href="/config/walletconnect">
+  Learn how to create a WalletConnect Project ID
+</Card>
+
+### appName
+
+The name of your application displayed in wallet connection modals.
+
+```tsx
+<PolygonKitProvider
+  config={{
+    appName: 'My Polygon DApp',
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+### appDescription
+
+A description of your application shown to users.
+
+```tsx
+<PolygonKitProvider
+  config={{
+    appDescription: 'A decentralized application built on Polygon',
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+### appUrl
+
+Your application's URL.
+
+```tsx
+<PolygonKitProvider
+  config={{
+    appUrl: 'https://myapp.com',
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+### appIcons
+
+An array of icon URLs for your application.
+
+```tsx
+<PolygonKitProvider
+  config={{
+    appIcons: ['https://myapp.com/logo.png'],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+## Complete Example
+
+Here's a fully configured provider:
+
+```tsx
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+import { polygon, polygonAmoy } from 'wagmi/chains';
+
+function App() {
+  return (
+    <PolygonKitProvider
+      config={{
+        chains: [polygon, polygonAmoy],
+        projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+        appName: 'My Polygon DApp',
+        appDescription: 'A decentralized application built on Polygon',
+        appUrl: 'https://myapp.com',
+        appIcons: ['https://myapp.com/logo.png'],
+      }}
+    >
+      {/* Your app components */}
+    </PolygonKitProvider>
+  );
+}
+```
+
+## Environment Variables
+
+Store sensitive configuration in environment variables:
+
+<Tabs>
+  <Tab title="Next.js">
+    ```bash .env.local
+    NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+    NEXT_PUBLIC_APP_NAME=My Polygon DApp
+    NEXT_PUBLIC_APP_URL=https://myapp.com
+    ```
+
+    ```tsx
+    <PolygonKitProvider
+      config={{
+        projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+        appName: process.env.NEXT_PUBLIC_APP_NAME,
+        appUrl: process.env.NEXT_PUBLIC_APP_URL,
+      }}
+    >
+      <App />
+    </PolygonKitProvider>
+    ```
+  </Tab>
+
+  <Tab title="Vite">
+    ```bash .env
+    VITE_WALLETCONNECT_PROJECT_ID=your_project_id
+    VITE_APP_NAME=My Polygon DApp
+    VITE_APP_URL=https://myapp.com
+    ```
+
+    ```tsx
+    <PolygonKitProvider
+      config={{
+        projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
+        appName: import.meta.env.VITE_APP_NAME,
+        appUrl: import.meta.env.VITE_APP_URL,
+      }}
+    >
+      <App />
+    </PolygonKitProvider>
+    ```
+  </Tab>
+
+  <Tab title="Remix">
+    ```bash .env
+    VITE_WALLETCONNECT_PROJECT_ID=your_project_id
+    VITE_APP_NAME=My Polygon DApp
+    ```
+
+    ```tsx
+    <PolygonKitProvider
+      config={{
+        projectId: process.env.VITE_WALLETCONNECT_PROJECT_ID,
+        appName: process.env.VITE_APP_NAME,
+      }}
+    >
+      <App />
+    </PolygonKitProvider>
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+  Never commit `.env` files to version control. Add them to `.gitignore` to keep your credentials secure.
+</Warning>
+
+## Default Configuration
+
+If you don't provide a config, PolygonKit uses these defaults:
+
+```typescript
+{
+  chains: [polygon, polygonAmoy, polygonZkEVM],
+  projectId: 'f6bd6e2911b56f5ac3bc8b2d0e2d7ad5', // Default demo ID
+  appName: 'PolygonKit App',
+  appDescription: 'Your Polygon App',
+  appUrl: 'https://polygon.technology',
+  appIcons: ['https://avatars.githubusercontent.com/u/21101868'],
+}
+```
+
+<Note>
+  The default Project ID is for development only. Create your own for production apps.
+</Note>
+
+## React Query Configuration
+
+PolygonKit uses TanStack React Query internally. The provider automatically sets up a QueryClient with sensible defaults:
+
+```typescript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+```
+
+## Wagmi Configuration
+
+The provider creates a wagmi config with:
+- WalletConnect connector
+- Injected wallet connector (MetaMask, etc.)
+- Coinbase Wallet connector
+- Public RPC transports for all chains
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Environment Variables">
+    Store your WalletConnect Project ID and other sensitive data in environment variables, not in your code.
+  </Accordion>
+
+  <Accordion title="Limit Chains">
+    Only include the chains your app actually uses. This improves UX and reduces unnecessary network requests.
+  </Accordion>
+
+  <Accordion title="Provide Metadata">
+    Set appName, appDescription, and appIcons to give users context about your app when connecting their wallet.
+  </Accordion>
+
+  <Accordion title="Test Multiple Frameworks">
+    If supporting multiple frameworks (Next.js, Vite, Remix), test the provider configuration in each environment.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<Accordion title="Provider not found error">
+  Make sure `PolygonKitProvider` is wrapping your entire app at the root level, not inside specific pages or components.
+</Accordion>
+
+<Accordion title="Invalid Project ID">
+  Verify your WalletConnect Project ID is correct and has not been revoked. Create a new one if needed.
+</Accordion>
+
+<Accordion title="Chains not switching">
+  Ensure all chains you want to support are included in the `chains` array configuration.
+</Accordion>
+
+<CardGroup cols={2}>
+  <Card title="Chain Configuration" icon="link" href="/config/chains">
+    Learn more about configuring chains
+  </Card>
+  <Card title="WalletConnect Setup" icon="wallet" href="/config/walletconnect">
+    Set up WalletConnect Project ID
+  </Card>
+</CardGroup>

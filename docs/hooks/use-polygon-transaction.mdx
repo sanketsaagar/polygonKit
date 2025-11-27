@@ -1,0 +1,144 @@
+---
+title: 'usePolygonTransaction'
+description: 'Send and track blockchain transactions'
+---
+
+## Overview
+
+The `usePolygonTransaction` hook helps you send transactions and track their status.
+
+## Usage
+
+```tsx
+import { usePolygonTransaction } from '@sanketsaagar/polygon-kit';
+
+function SendTransaction() {
+  const { sendTransaction, isPending, isSuccess, error } = usePolygonTransaction();
+
+  const handleSend = () => {
+    sendTransaction({
+      to: '0x...',
+      value: BigInt('1000000000000000000'), // 1 MATIC
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={handleSend} disabled={isPending}>
+        {isPending ? 'Sending...' : 'Send Transaction'}
+      </button>
+      {isSuccess && <p>Transaction sent!</p>}
+      {error && <p>Error: {error.message}</p>}
+    </div>
+  );
+}
+```
+
+## Return Values
+
+<ResponseField name="sendTransaction" type="(params: TransactionParams) => Promise<string>">
+  Function to send a transaction
+</ResponseField>
+
+<ResponseField name="isPending" type="boolean">
+  Whether a transaction is being sent
+</ResponseField>
+
+<ResponseField name="isSuccess" type="boolean">
+  Whether the transaction was successful
+</ResponseField>
+
+<ResponseField name="error" type="Error | null">
+  Error object if the transaction failed
+</ResponseField>
+
+<ResponseField name="txHash" type="string | undefined">
+  The transaction hash if successful
+</ResponseField>
+
+<ResponseField name="reset" type="() => void">
+  Reset the transaction state
+</ResponseField>
+
+## Examples
+
+### Send MATIC
+
+```tsx
+function SendMatic() {
+  const { sendTransaction, isPending } = usePolygonTransaction();
+
+  const send = () => {
+    sendTransaction({
+      to: '0xRecipientAddress',
+      value: BigInt('1000000000000000000'), // 1 MATIC
+    });
+  };
+
+  return (
+    <button onClick={send} disabled={isPending}>
+      Send 1 MATIC
+    </button>
+  );
+}
+```
+
+### Contract Interaction
+
+```tsx
+function MintNFT() {
+  const { sendTransaction, isSuccess, txHash } = usePolygonTransaction();
+
+  const mint = () => {
+    sendTransaction({
+      to: '0xContractAddress',
+      data: '0x...', // Encoded mint function
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={mint}>Mint NFT</button>
+      {isSuccess && (
+        <a href={`https://polygonscan.com/tx/${txHash}`}>
+          View Transaction
+        </a>
+      )}
+    </div>
+  );
+}
+```
+
+### With Error Handling
+
+```tsx
+function SafeTransaction() {
+  const { sendTransaction, isPending, error, reset } = usePolygonTransaction();
+
+  const send = async () => {
+    try {
+      await sendTransaction({
+        to: '0x...',
+        value: BigInt('1000000000000000'),
+      });
+      alert('Transaction sent!');
+    } catch (err) {
+      console.error('Transaction failed:', err);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={send} disabled={isPending}>
+        Send Transaction
+      </button>
+      {error && (
+        <div>
+          <p className="text-red-500">{error.message}</p>
+          <button onClick={reset}>Try Again</button>
+        </div>
+      )}
+    </div>
+  );
+}
+```

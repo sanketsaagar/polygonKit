@@ -1,0 +1,152 @@
+---
+title: 'Transaction Components'
+description: 'Send transactions and track their status'
+---
+
+## Overview
+
+Transaction components help you send blockchain transactions with built-in status tracking and error handling.
+
+## TransactionButton
+
+A button component that sends transactions when clicked.
+
+### Basic Usage
+
+```tsx
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
+
+function SendButton() {
+  return (
+    <TransactionButton
+      text="Send 0.001 MATIC"
+      calls={[
+        {
+          to: '0xRecipientAddress',
+          value: BigInt('1000000000000000'), // 0.001 MATIC in wei
+        },
+      ]}
+      onSuccess={(hash) => console.log('Transaction sent:', hash)}
+      onError={(error) => console.error('Error:', error)}
+    />
+  );
+}
+```
+
+### Props
+
+<ParamField path="text" type="string" required>
+  Button text to display
+</ParamField>
+
+<ParamField path="calls" type="CallData[]" required>
+  Array of transaction calls to execute
+</ParamField>
+
+<ParamField path="onSuccess" type="(hash: string) => void">
+  Callback when transaction succeeds
+</ParamField>
+
+<ParamField path="onError" type="(error: Error) => void">
+  Callback when transaction fails
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Contract Interaction
+
+```tsx
+<TransactionButton
+  text="Mint NFT"
+  calls={[
+    {
+      to: '0xContractAddress',
+      data: '0x...', // Encoded function call
+      value: BigInt('0'),
+    },
+  ]}
+  onSuccess={(hash) => {
+    console.log('NFT minted!', hash);
+  }}
+/>
+```
+
+## TransactionStatus
+
+Display the current status of a transaction.
+
+```tsx
+import { TransactionStatus } from '@sanketsaagar/polygon-kit';
+
+<TransactionStatus hash="0x..." />
+```
+
+Shows:
+- Pending (⏳)
+- Confirmed (✓)
+- Failed (✗)
+
+## Complete Example
+
+```tsx
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
+import { useState } from 'react';
+
+function SendMatic() {
+  const [txHash, setTxHash] = useState<string>();
+  const [recipient, setRecipient] = useState('');
+  const [amount, setAmount] = useState('');
+
+  return (
+    <div className="space-y-4">
+      <input
+        type="text"
+        placeholder="Recipient address"
+        value={recipient}
+        onChange={(e) => setRecipient(e.target.value)}
+        className="w-full p-2 border rounded"
+      />
+      <input
+        type="text"
+        placeholder="Amount in MATIC"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        className="w-full p-2 border rounded"
+      />
+
+      <TransactionButton
+        text={`Send ${amount} MATIC`}
+        calls={[
+          {
+            to: recipient as `0x${string}`,
+            value: BigInt(parseFloat(amount) * 1e18),
+          },
+        ]}
+        onSuccess={(hash) => {
+          setTxHash(hash);
+          alert('Transaction sent!');
+        }}
+        onError={(error) => {
+          alert(`Error: ${error.message}`);
+        }}
+      />
+
+      {txHash && (
+        <p className="text-sm">
+          Transaction:{' '}
+          <a
+            href={`https://polygonscan.com/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500"
+          >
+            {txHash.slice(0, 10)}...
+          </a>
+        </p>
+      )}
+    </div>
+  );
+}
+```

@@ -1,0 +1,222 @@
+---
+title: 'TypeScript Types'
+description: 'Type definitions for PolygonKit'
+---
+
+## Overview
+
+PolygonKit provides comprehensive TypeScript types for all components, hooks, and utilities.
+
+## Core Types
+
+### Address
+
+```typescript
+type Address = `0x${string}`;
+```
+
+Ethereum address type with compile-time validation.
+
+### PolygonKitConfig
+
+```typescript
+interface PolygonKitConfig {
+  chains?: Chain[];
+  projectId?: string;
+  appName?: string;
+  appDescription?: string;
+  appUrl?: string;
+  appIcons?: string[];
+}
+```
+
+Configuration for PolygonKitProvider.
+
+### Chain
+
+```typescript
+interface Chain {
+  id: number;
+  name: string;
+  network: string;
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
+  rpcUrls: {
+    default: { http: string[] };
+    public: { http: string[] };
+  };
+  blockExplorers?: {
+    default: { name: string; url: string };
+  };
+}
+```
+
+## Component Props
+
+### ConnectWalletProps
+
+```typescript
+interface ConnectWalletProps {
+  children?: ReactNode;
+  className?: string;
+  onConnect?: (address: Address) => void;
+  onDisconnect?: () => void;
+}
+```
+
+### IdentityProps
+
+```typescript
+interface IdentityProps {
+  address: Address;
+  className?: string;
+  showAvatar?: boolean;
+  showAddress?: boolean;
+  showBalance?: boolean;
+}
+```
+
+### TransactionButtonProps
+
+```typescript
+interface TransactionButtonProps {
+  text: string;
+  calls: CallData[];
+  onSuccess?: (hash: string) => void;
+  onError?: (error: Error) => void;
+  className?: string;
+}
+
+interface CallData {
+  to: Address;
+  value?: bigint;
+  data?: `0x${string}`;
+}
+```
+
+## Hook Return Types
+
+### UsePolygonKitReturn
+
+```typescript
+interface UsePolygonKitReturn {
+  address: Address | undefined;
+  isConnected: boolean;
+  chain: Chain | undefined;
+  balance: Balance | undefined;
+  connect: () => void;
+  disconnect: () => void;
+  connectors: readonly Connector[];
+}
+```
+
+### UsePolygonBalanceReturn
+
+```typescript
+interface UsePolygonBalanceReturn {
+  balance: Balance | undefined;
+  isLoading: boolean;
+  error: Error | null;
+  refetch: () => void;
+}
+
+interface Balance {
+  value: bigint;
+  formatted: string;
+  decimals: number;
+  symbol: string;
+}
+```
+
+### UsePolygonTransactionReturn
+
+```typescript
+interface UsePolygonTransactionReturn {
+  sendTransaction: (params: TransactionParams) => Promise<string>;
+  isPending: boolean;
+  isSuccess: boolean;
+  error: Error | null;
+  txHash: string | undefined;
+  reset: () => void;
+}
+
+interface TransactionParams {
+  to: Address;
+  value?: bigint;
+  data?: `0x${string}`;
+}
+```
+
+## Utility Types
+
+### FormatBalanceParams
+
+```typescript
+function formatBalance(
+  value: bigint,
+  decimals: number = 18,
+  displayDecimals: number = 4
+): string;
+```
+
+### ShortenAddressParams
+
+```typescript
+function shortenAddress(
+  address: string,
+  chars: number = 4
+): string;
+```
+
+### ParseTokenAmountParams
+
+```typescript
+function parseTokenAmount(
+  amount: string,
+  decimals: number = 18
+): bigint;
+```
+
+## Importing Types
+
+```typescript
+import type {
+  Address,
+  PolygonKitConfig,
+  ConnectWalletProps,
+  IdentityProps,
+  TransactionButtonProps,
+  UsePolygonKitReturn,
+  UsePolygonBalanceReturn,
+  UsePolygonTransactionReturn,
+  Balance,
+  Chain,
+} from '@sanketsaagar/polygon-kit';
+```
+
+## Type Guards
+
+Check if a value is a valid address:
+
+```typescript
+function isAddress(value: string): value is Address {
+  return /^0x[a-fA-F0-9]{40}$/.test(value);
+}
+```
+
+## Generic Types
+
+PolygonKit uses TypeScript generics for type-safe APIs:
+
+```typescript
+const { address } = usePolygonKit();
+// address is Address | undefined
+
+if (address) {
+  // address is Address here
+  const short = shortenAddress(address);
+}
+```

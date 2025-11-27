@@ -1,0 +1,220 @@
+---
+title: 'Quickstart'
+description: 'Build your first Polygon app in 5 minutes'
+---
+
+## Overview
+
+This guide will help you set up a new project with PolygonKit and build your first onchain application.
+
+<Steps>
+  <Step title="Create a new project">
+    Start by creating a new React project with Vite:
+
+    <CodeGroup>
+
+    ```bash npm
+    npm create vite@latest my-polygon-app -- --template react-ts
+    cd my-polygon-app
+    ```
+
+    ```bash yarn
+    yarn create vite my-polygon-app --template react-ts
+    cd my-polygon-app
+    ```
+
+    ```bash pnpm
+    pnpm create vite my-polygon-app --template react-ts
+    cd my-polygon-app
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Install dependencies">
+    Install PolygonKit and required peer dependencies:
+
+    <CodeGroup>
+
+    ```bash npm
+    npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash yarn
+    yarn add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash pnpm
+    pnpm add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Set up the provider">
+    Wrap your app with `PolygonKitProvider` in `src/main.tsx`:
+
+    ```tsx src/main.tsx
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+    import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+    import App from './App';
+    import './index.css';
+
+    ReactDOM.createRoot(document.getElementById('root')!).render(
+      <React.StrictMode>
+        <PolygonKitProvider>
+          <App />
+        </PolygonKitProvider>
+      </React.StrictMode>,
+    );
+    ```
+  </Step>
+
+  <Step title="Create your first component">
+    Add a wallet connection button in `src/App.tsx`:
+
+    ```tsx src/App.tsx
+    import {
+      Wallet,
+      ConnectWallet,
+      WalletDropdown,
+      Identity,
+      usePolygonKit,
+    } from '@sanketsaagar/polygon-kit';
+
+    function App() {
+      const { address, isConnected } = usePolygonKit();
+
+      return (
+        <div className="min-h-screen bg-gray-50">
+          <header className="bg-white shadow">
+            <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+              <h1 className="text-2xl font-bold">My Polygon App</h1>
+              <Wallet>
+                {isConnected ? <WalletDropdown /> : <ConnectWallet />}
+              </Wallet>
+            </div>
+          </header>
+
+          <main className="max-w-7xl mx-auto px-4 py-8">
+            {isConnected && address ? (
+              <div className="bg-white p-6 rounded-lg shadow">
+                <Identity
+                  address={address}
+                  showAvatar
+                  showAddress
+                  showBalance
+                />
+              </div>
+            ) : (
+              <div className="text-center">
+                <h2 className="text-3xl font-bold mb-4">Welcome to Polygon</h2>
+                <ConnectWallet />
+              </div>
+            )}
+          </main>
+        </div>
+      );
+    }
+
+    export default App;
+    ```
+  </Step>
+
+  <Step title="Run your app">
+    Start the development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    Visit `http://localhost:5173` and connect your wallet!
+  </Step>
+</Steps>
+
+## What's next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Configure WalletConnect"
+    icon="link"
+    href="/config/walletconnect"
+  >
+    Set up your WalletConnect Project ID
+  </Card>
+  <Card
+    title="Explore Components"
+    icon="layer-group"
+    href="/components/wallet"
+  >
+    Learn about all available components
+  </Card>
+  <Card
+    title="Use Hooks"
+    icon="link"
+    href="/hooks/use-polygon-kit"
+  >
+    Access blockchain data with hooks
+  </Card>
+  <Card
+    title="Customize Styling"
+    icon="palette"
+    href="/guides/custom-styles"
+  >
+    Style components to match your brand
+  </Card>
+</CardGroup>
+
+## Common Use Cases
+
+### Send a Transaction
+
+```tsx
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
+
+function SendButton() {
+  return (
+    <TransactionButton
+      text="Send 0.001 MATIC"
+      calls={[
+        {
+          to: '0xRecipientAddress',
+          value: BigInt('1000000000000000'), // 0.001 MATIC
+        },
+      ]}
+      onSuccess={(hash) => console.log('Transaction sent:', hash)}
+      onError={(error) => console.error('Error:', error)}
+    />
+  );
+}
+```
+
+### Display Token Balance
+
+```tsx
+import { TokenBalance } from '@sanketsaagar/polygon-kit';
+
+function Balance({ address }: { address: string }) {
+  return <TokenBalance address={address as `0x${string}`} />;
+}
+```
+
+### Token Swap
+
+```tsx
+import { Swap } from '@sanketsaagar/polygon-kit';
+
+function SwapWidget() {
+  return (
+    <Swap
+      onSuccess={(hash) => console.log('Swap successful:', hash)}
+      onError={(error) => console.error('Swap failed:', error)}
+    />
+  );
+}
+```
+
+<Note>
+  For production apps, make sure to configure your own [WalletConnect Project ID](/config/walletconnect).
+</Note>

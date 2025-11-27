@@ -1,0 +1,8 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Polygon icon -->
+  <path d="M20 6L26 9.5V16.5L20 20L14 16.5V9.5L20 6Z" fill="#A66EFF" stroke="#A66EFF" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M20 13L23 14.5V17.5L20 19L17 17.5V14.5L20 13Z" fill="white"/>
+
+  <!-- Text: PolygonKit -->
+  <text x="35" y="21" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#ffffff">PolygonKit</text>
+</svg>

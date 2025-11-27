@@ -1,0 +1,271 @@
+---
+title: 'Install with Vite'
+description: 'Set up PolygonKit in your Vite application'
+---
+
+## Installation
+
+PolygonKit works perfectly with Vite and React. This is the fastest way to get started.
+
+<Steps>
+  <Step title="Create a Vite project">
+    Create a new Vite project with React and TypeScript:
+
+    <CodeGroup>
+
+    ```bash npm
+    npm create vite@latest my-polygon-app -- --template react-ts
+    cd my-polygon-app
+    ```
+
+    ```bash yarn
+    yarn create vite my-polygon-app --template react-ts
+    cd my-polygon-app
+    ```
+
+    ```bash pnpm
+    pnpm create vite my-polygon-app --template react-ts
+    cd my-polygon-app
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Install dependencies">
+    Install PolygonKit and required peer dependencies:
+
+    <CodeGroup>
+
+    ```bash npm
+    npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash yarn
+    yarn add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash pnpm
+    pnpm add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Set up the provider">
+    Wrap your app with `PolygonKitProvider` in `src/main.tsx`:
+
+    ```tsx src/main.tsx
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+    import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+    import App from './App';
+    import './index.css';
+
+    ReactDOM.createRoot(document.getElementById('root')!).render(
+      <React.StrictMode>
+        <PolygonKitProvider>
+          <App />
+        </PolygonKitProvider>
+      </React.StrictMode>,
+    );
+    ```
+  </Step>
+
+  <Step title="Use PolygonKit components">
+    Update `src/App.tsx` to use PolygonKit components:
+
+    ```tsx src/App.tsx
+    import {
+      ConnectWallet,
+      Wallet,
+      WalletDropdown,
+      Identity,
+      usePolygonKit,
+    } from '@sanketsaagar/polygon-kit';
+
+    function App() {
+      const { address, isConnected } = usePolygonKit();
+
+      return (
+        <div className="min-h-screen bg-gray-50">
+          <header className="bg-white shadow">
+            <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+              <h1 className="text-2xl font-bold">My Polygon App</h1>
+              <Wallet>
+                {isConnected ? <WalletDropdown /> : <ConnectWallet />}
+              </Wallet>
+            </div>
+          </header>
+
+          <main className="max-w-7xl mx-auto px-4 py-8">
+            {isConnected && address ? (
+              <div className="bg-white p-6 rounded-lg shadow">
+                <Identity
+                  address={address}
+                  showAvatar
+                  showAddress
+                  showBalance
+                />
+              </div>
+            ) : (
+              <div className="text-center">
+                <h2 className="text-3xl font-bold mb-4">Welcome to Polygon</h2>
+                <p className="text-gray-600 mb-8">
+                  Connect your wallet to get started
+                </p>
+                <ConnectWallet />
+              </div>
+            )}
+          </main>
+        </div>
+      );
+    }
+
+    export default App;
+    ```
+  </Step>
+
+  <Step title="Run your app">
+    Start the development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    Visit `http://localhost:5173` and connect your wallet!
+  </Step>
+</Steps>
+
+## Configuration
+
+Customize PolygonKit by passing configuration options:
+
+```tsx src/main.tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+import { polygon, polygonAmoy, polygonZkEVM } from 'wagmi/chains';
+import App from './App';
+import './index.css';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <PolygonKitProvider
+      config={{
+        chains: [polygon, polygonAmoy, polygonZkEVM],
+        projectId: 'YOUR_WALLETCONNECT_PROJECT_ID',
+        appName: 'My Polygon App',
+        appDescription: 'Build on Polygon',
+        appUrl: 'https://myapp.com',
+        appIcons: ['https://myapp.com/icon.png'],
+      }}
+    >
+      <App />
+    </PolygonKitProvider>
+  </React.StrictMode>,
+);
+```
+
+## Environment Variables
+
+Create a `.env` file for your configuration:
+
+```bash .env
+VITE_WALLETCONNECT_PROJECT_ID=your_project_id_here
+VITE_APP_NAME=My Polygon App
+```
+
+Then use them in your code:
+
+```tsx src/main.tsx
+<PolygonKitProvider
+  config={{
+    projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
+    appName: import.meta.env.VITE_APP_NAME,
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+<Note>
+  Remember to add `.env` to your `.gitignore` file to keep your credentials secure.
+</Note>
+
+## Adding Tailwind CSS
+
+PolygonKit components work great with Tailwind CSS:
+
+<Steps>
+  <Step title="Install Tailwind">
+    ```bash
+    npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init -p
+    ```
+  </Step>
+
+  <Step title="Configure Tailwind">
+    Update `tailwind.config.js`:
+
+    ```js tailwind.config.js
+    /** @type {import('tailwindcss').Config} */
+    export default {
+      content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+      ],
+      theme: {
+        extend: {},
+      },
+      plugins: [],
+    }
+    ```
+  </Step>
+
+  <Step title="Add Tailwind directives">
+    Update `src/index.css`:
+
+    ```css src/index.css
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```
+  </Step>
+</Steps>
+
+<Card title="Next Steps" icon="arrow-right" href="/config/provider">
+  Learn more about configuration options
+</Card>
+
+## Troubleshooting
+
+### Buffer Not Defined Error
+
+If you encounter a "Buffer is not defined" error, install the buffer polyfill:
+
+```bash
+npm install buffer
+```
+
+Then add to `src/main.tsx`:
+
+```tsx
+import { Buffer } from 'buffer';
+globalThis.Buffer = Buffer;
+```
+
+### Module Resolution Issues
+
+If you see import errors, ensure your `tsconfig.json` includes:
+
+```json tsconfig.json
+{
+  "compilerOptions": {
+    "types": ["vite/client"]
+  }
+}
+```
+
+### Hot Module Replacement Issues
+
+If HMR isn't working properly with wallet state, try disabling React Strict Mode temporarily or clear your browser's local storage.

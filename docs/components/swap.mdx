@@ -1,0 +1,127 @@
+---
+title: 'Swap Component'
+description: 'Built-in token swap interface'
+---
+
+## Overview
+
+The Swap component provides a complete token swap interface powered by decentralized exchanges on Polygon.
+
+## Swap
+
+A full-featured swap widget for exchanging tokens.
+
+### Basic Usage
+
+```tsx
+import { Swap } from '@sanketsaagar/polygon-kit';
+
+function SwapWidget() {
+  return (
+    <Swap
+      onSuccess={(hash) => console.log('Swap successful:', hash)}
+      onError={(error) => console.error('Swap failed:', error)}
+    />
+  );
+}
+```
+
+### Props
+
+<ParamField path="onSuccess" type="(hash: string) => void">
+  Callback when swap succeeds
+</ParamField>
+
+<ParamField path="onError" type="(error: Error) => void">
+  Callback when swap fails
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+<ParamField path="defaultInputToken" type="Address">
+  Default token to swap from
+</ParamField>
+
+<ParamField path="defaultOutputToken" type="Address">
+  Default token to swap to
+</ParamField>
+
+### Features
+
+- Select input/output tokens
+- Enter amount to swap
+- View exchange rate
+- See estimated gas fees
+- Slippage tolerance settings
+- Transaction confirmation
+
+### Custom Defaults
+
+```tsx
+<Swap
+  defaultInputToken="0x..." // USDC
+  defaultOutputToken="0x..." // MATIC
+  onSuccess={(hash) => {
+    alert('Swap complete!');
+    console.log('Transaction:', hash);
+  }}
+/>
+```
+
+## Complete Example
+
+```tsx
+import { Swap, usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+function SwapPage() {
+  const { isConnected } = usePolygonKit();
+
+  if (!isConnected) {
+    return (
+      <div className="text-center py-12">
+        <p>Connect your wallet to swap tokens</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-md mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-6">Swap Tokens</h1>
+
+      <Swap
+        onSuccess={(hash) => {
+          console.log('Swap successful:', hash);
+          // Refresh balances, show notification, etc.
+        }}
+        onError={(error) => {
+          console.error('Swap error:', error);
+          // Show error message to user
+        }}
+        className="shadow-lg rounded-xl"
+      />
+
+      <p className="text-sm text-gray-500 mt-4 text-center">
+        Powered by Polygon DEXs
+      </p>
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Handle Errors">
+    Always implement error handling for failed swaps and provide helpful messages.
+  </Accordion>
+
+  <Accordion title="Show Transaction Status">
+    Display transaction status and provide links to block explorers.
+  </Accordion>
+
+  <Accordion title="Set Reasonable Slippage">
+    Guide users on appropriate slippage tolerance settings.
+  </Accordion>
+</AccordionGroup>

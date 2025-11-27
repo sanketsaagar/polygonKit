@@ -1,0 +1,116 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "PolygonKit",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#8247E5",
+    "light": "#A66EFF",
+    "dark": "#6B3BC3",
+    "anchors": {
+      "from": "#8247E5",
+      "to": "#A66EFF"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "https://github.com/sanketsaagar/polygonKit/issues"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "GitHub",
+    "url": "https://github.com/sanketsaagar/polygonKit"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Documentation",
+      "icon": "book-open-cover",
+      "url": "https://github.com/sanketsaagar/polygonKit"
+    },
+    {
+      "name": "npm Package",
+      "icon": "npm",
+      "url": "https://www.npmjs.com/package/@sanketsaagar/polygon-kit"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "introduction",
+        "quickstart"
+      ]
+    },
+    {
+      "group": "Installation",
+      "pages": [
+        "installation/nextjs",
+        "installation/vite",
+        "installation/remix"
+      ]
+    },
+    {
+      "group": "Configuration",
+      "pages": [
+        "config/provider",
+        "config/chains",
+        "config/walletconnect"
+      ]
+    },
+    {
+      "group": "Components",
+      "pages": [
+        "components/wallet",
+        "components/identity",
+        "components/transaction",
+        "components/token",
+        "components/swap"
+      ]
+    },
+    {
+      "group": "Hooks",
+      "pages": [
+        "hooks/use-polygon-kit",
+        "hooks/use-polygon-balance",
+        "hooks/use-polygon-transaction"
+      ]
+    },
+    {
+      "group": "Utilities",
+      "pages": [
+        "utilities/format-balance",
+        "utilities/shorten-address",
+        "utilities/parse-token-amount"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/theming",
+        "guides/custom-styles",
+        "guides/testing"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/types"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/sanketsaagar/polygonKit",
+    "twitter": "https://twitter.com/0xPolygon"
+  }
+}

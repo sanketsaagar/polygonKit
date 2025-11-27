@@ -1,0 +1,358 @@
+---
+title: 'Chain Configuration'
+description: 'Configure blockchain networks for your application'
+---
+
+## Overview
+
+PolygonKit supports multiple Polygon networks out of the box. You can configure which chains your application supports through the `PolygonKitProvider` configuration.
+
+## Supported Chains
+
+### Polygon PoS Mainnet
+
+The main Polygon network - a sidechain of Ethereum with low fees and fast transactions.
+
+```tsx
+import { polygon } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygon],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+**Details:**
+- Chain ID: `137`
+- Currency: MATIC
+- Block Explorer: https://polygonscan.com
+- RPC: https://polygon-rpc.com
+
+### Polygon Amoy Testnet
+
+The latest Polygon testnet for development and testing.
+
+```tsx
+import { polygonAmoy } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygonAmoy],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+**Details:**
+- Chain ID: `80002`
+- Currency: MATIC (test tokens)
+- Block Explorer: https://amoy.polygonscan.com
+- Faucet: https://faucet.polygon.technology
+
+<Note>
+  Amoy replaced Mumbai as the official Polygon testnet in 2024.
+</Note>
+
+### Polygon zkEVM Mainnet
+
+A Layer 2 scaling solution using zero-knowledge proofs.
+
+```tsx
+import { polygonZkEVM } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygonZkEVM],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+**Details:**
+- Chain ID: `1101`
+- Currency: ETH
+- Block Explorer: https://zkevm.polygonscan.com
+- Bridge: https://portal.polygon.technology
+
+### Polygon zkEVM Testnet
+
+Testnet for Polygon zkEVM.
+
+```tsx
+import { polygonZkEvmTestnet } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygonZkEvmTestnet],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+**Details:**
+- Chain ID: `1442`
+- Currency: ETH (test tokens)
+- Block Explorer: https://testnet-zkevm.polygonscan.com
+- Faucet: Available through bridge
+
+## Multiple Chains
+
+Configure your app to support multiple networks:
+
+```tsx
+import { polygon, polygonAmoy, polygonZkEVM } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygon, polygonAmoy, polygonZkEVM],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+Users can switch between configured chains using the wallet dropdown.
+
+## Custom RPC URLs
+
+Override default RPC URLs for better performance or custom endpoints:
+
+```tsx
+import { polygon } from 'wagmi/chains';
+import { http } from 'viem';
+
+const customPolygon = {
+  ...polygon,
+  rpcUrls: {
+    default: {
+      http: ['https://your-custom-rpc.com'],
+    },
+    public: {
+      http: ['https://your-custom-rpc.com'],
+    },
+  },
+};
+
+<PolygonKitProvider
+  config={{
+    chains: [customPolygon],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+## Chain-Specific Configuration
+
+### Development (Testnet Only)
+
+For development, only use testnets:
+
+```tsx
+import { polygonAmoy } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygonAmoy],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+### Production (Mainnet + Testnet)
+
+For production, support both mainnet and testnet:
+
+```tsx
+import { polygon, polygonAmoy } from 'wagmi/chains';
+
+const chains = process.env.NODE_ENV === 'production'
+  ? [polygon, polygonAmoy]
+  : [polygonAmoy];
+
+<PolygonKitProvider
+  config={{
+    chains,
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+## Accessing Current Chain
+
+Use the `usePolygonKit` hook to get the current chain:
+
+```tsx
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+function ChainInfo() {
+  const { chain } = usePolygonKit();
+
+  return (
+    <div>
+      <p>Connected to: {chain?.name}</p>
+      <p>Chain ID: {chain?.id}</p>
+    </div>
+  );
+}
+```
+
+## Switching Chains
+
+Users can switch chains through the wallet dropdown, or you can programmatically switch:
+
+```tsx
+import { useSwitchChain } from 'wagmi';
+import { polygon, polygonAmoy } from 'wagmi/chains';
+
+function ChainSwitcher() {
+  const { switchChain } = useSwitchChain();
+
+  return (
+    <div>
+      <button onClick={() => switchChain({ chainId: polygon.id })}>
+        Switch to Polygon
+      </button>
+      <button onClick={() => switchChain({ chainId: polygonAmoy.id })}>
+        Switch to Amoy
+      </button>
+    </div>
+  );
+}
+```
+
+## Chain Icons and Metadata
+
+PolygonKit automatically provides chain icons and metadata for all supported Polygon chains. The chain logo appears in the wallet dropdown.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Start with Testnet">
+    Always develop and test on Amoy testnet before deploying to mainnet.
+  </Accordion>
+
+  <Accordion title="Limit Chain Selection">
+    Only include chains your app actually uses. Too many options can confuse users.
+  </Accordion>
+
+  <Accordion title="Handle Chain Mismatches">
+    Always check if the user is on the correct chain before executing transactions.
+  </Accordion>
+
+  <Accordion title="Use Environment Variables">
+    Configure chains based on environment (development vs production).
+  </Accordion>
+</AccordionGroup>
+
+## Example: Chain Guard
+
+Create a component that ensures users are on the correct chain:
+
+```tsx
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
+import { useSwitchChain } from 'wagmi';
+import { polygon } from 'wagmi/chains';
+
+function ChainGuard({ children }: { children: React.ReactNode }) {
+  const { chain, isConnected } = usePolygonKit();
+  const { switchChain } = useSwitchChain();
+
+  if (!isConnected) {
+    return <div>Please connect your wallet</div>;
+  }
+
+  if (chain?.id !== polygon.id) {
+    return (
+      <div>
+        <p>Please switch to Polygon Mainnet</p>
+        <button onClick={() => switchChain({ chainId: polygon.id })}>
+          Switch Network
+        </button>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}
+
+// Usage
+function App() {
+  return (
+    <ChainGuard>
+      {/* Your app content - only shown on correct chain */}
+    </ChainGuard>
+  );
+}
+```
+
+## Chain Detection
+
+Detect which chain the user is on:
+
+```tsx
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
+import { polygon, polygonAmoy, polygonZkEVM } from 'wagmi/chains';
+
+function ChainBadge() {
+  const { chain } = usePolygonKit();
+
+  const getChainColor = () => {
+    switch (chain?.id) {
+      case polygon.id:
+        return 'bg-purple-500';
+      case polygonAmoy.id:
+        return 'bg-orange-500';
+      case polygonZkEVM.id:
+        return 'bg-blue-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
+
+  return (
+    <span className={`px-2 py-1 rounded ${getChainColor()}`}>
+      {chain?.name || 'Unknown Chain'}
+    </span>
+  );
+}
+```
+
+## Troubleshooting
+
+<Accordion title="Chain not available in wallet">
+  If a chain doesn't appear in MetaMask or other wallets, you may need to add it manually. Provide an "Add Network" button in your UI.
+</Accordion>
+
+<Accordion title="Wrong chain after connecting">
+  Some wallets remember the last used chain. Prompt users to switch chains after connection if needed.
+</Accordion>
+
+<Accordion title="RPC errors">
+  If you see RPC errors, try using a custom RPC URL or check if the default RPC is experiencing issues.
+</Accordion>
+
+## Additional Resources
+
+<CardGroup cols={2}>
+  <Card title="Polygon PoS Docs" icon="book" href="https://docs.polygon.technology/pos">
+    Official Polygon PoS documentation
+  </Card>
+  <Card title="Polygon zkEVM Docs" icon="book" href="https://docs.polygon.technology/zkevm">
+    Official Polygon zkEVM documentation
+  </Card>
+  <Card title="Get Test Tokens" icon="faucet" href="https://faucet.polygon.technology">
+    Polygon faucet for test MATIC
+  </Card>
+  <Card title="Block Explorers" icon="search" href="https://polygonscan.com">
+    View transactions and contracts
+  </Card>
+</CardGroup>

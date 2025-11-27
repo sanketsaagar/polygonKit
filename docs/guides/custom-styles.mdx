@@ -1,0 +1,115 @@
+---
+title: 'Custom Styles'
+description: 'Advanced styling techniques for PolygonKit'
+---
+
+## Overview
+
+Learn advanced techniques for customizing PolygonKit components to match your brand.
+
+## Styled Components
+
+Use CSS-in-JS libraries like styled-components:
+
+```tsx
+import styled from 'styled-components';
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+const StyledButton = styled(ConnectWallet)`
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-weight: 600;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+`;
+
+function App() {
+  return <StyledButton />;
+}
+```
+
+## CSS Modules
+
+Use CSS Modules for scoped styles:
+
+```css
+/* styles/wallet.module.css */
+.connectButton {
+  background: var(--primary-gradient);
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-weight: 600;
+}
+
+.connectButton:hover {
+  box-shadow: 0 8px 16px rgba(130, 71, 229, 0.3);
+}
+```
+
+```tsx
+import styles from './styles/wallet.module.css';
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+<ConnectWallet className={styles.connectButton} />
+```
+
+## Animation
+
+Add animations to components:
+
+```tsx
+<ConnectWallet className="
+  transition-all duration-300 ease-in-out
+  hover:scale-105 hover:shadow-2xl
+  active:scale-95
+  animate-pulse
+" />
+```
+
+## Custom Wrapper
+
+Create a custom wrapper component:
+
+```tsx
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+function BrandedConnectButton() {
+  return (
+    <div className="relative group">
+      <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000" />
+      <ConnectWallet className="relative bg-white dark:bg-gray-900" />
+    </div>
+  );
+}
+```
+
+## Glassmorphism Effect
+
+Create a modern glassmorphism style:
+
+```tsx
+<ConnectWallet className="
+  bg-white/10 backdrop-blur-lg
+  border border-white/20
+  shadow-xl
+  hover:bg-white/20
+  transition-all
+" />
+```
+
+## Responsive Design
+
+Make components responsive:
+
+```tsx
+<ConnectWallet className="
+  px-4 py-2 sm:px-6 sm:py-3
+  text-sm sm:text-base
+  w-full sm:w-auto
+" />
+```

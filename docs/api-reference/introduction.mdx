@@ -1,0 +1,77 @@
+---
+title: 'API Reference'
+description: 'Complete API documentation for PolygonKit'
+---
+
+## Overview
+
+PolygonKit provides a comprehensive set of React components, hooks, and utilities for building Polygon applications.
+
+## Components
+
+<CardGroup cols={2}>
+  <Card title="Wallet Components" icon="wallet" href="/components/wallet">
+    ConnectWallet, Wallet, WalletDropdown
+  </Card>
+  <Card title="Identity Components" icon="user" href="/components/identity">
+    Identity, Avatar, Name
+  </Card>
+  <Card title="Transaction Components" icon="exchange" href="/components/transaction">
+    TransactionButton, TransactionStatus
+  </Card>
+  <Card title="Token Components" icon="coins" href="/components/token">
+    TokenBalance, TokenIcon
+  </Card>
+  <Card title="Swap Component" icon="shuffle" href="/components/swap">
+    Swap
+  </Card>
+</CardGroup>
+
+## Hooks
+
+<CardGroup cols={3}>
+  <Card title="usePolygonKit" icon="link" href="/hooks/use-polygon-kit">
+    Main wallet state hook
+  </Card>
+  <Card title="usePolygonBalance" icon="wallet" href="/hooks/use-polygon-balance">
+    Fetch token balances
+  </Card>
+  <Card title="usePolygonTransaction" icon="exchange" href="/hooks/use-polygon-transaction">
+    Send transactions
+  </Card>
+</CardGroup>
+
+## Utilities
+
+<CardGroup cols={3}>
+  <Card title="formatBalance" icon="hashtag" href="/utilities/format-balance">
+    Format token amounts
+  </Card>
+  <Card title="shortenAddress" icon="text" href="/utilities/shorten-address">
+    Shorten addresses
+  </Card>
+  <Card title="parseTokenAmount" icon="calculator" href="/utilities/parse-token-amount">
+    Parse user input
+  </Card>
+</CardGroup>
+
+## TypeScript Support
+
+PolygonKit is written in TypeScript and provides full type definitions:
+
+```tsx
+import type {
+  Address,
+  PolygonKitConfig,
+  ConnectWalletProps,
+  IdentityProps,
+  TransactionButtonProps,
+} from '@sanketsaagar/polygon-kit';
+```
+
+## Package Information
+
+- **Package Name**: `@sanketsaagar/polygon-kit`
+- **Latest Version**: Check [npm](https://www.npmjs.com/package/@sanketsaagar/polygon-kit)
+- **License**: MIT
+- **Repository**: [GitHub](https://github.com/sanketsaagar/polygonKit)

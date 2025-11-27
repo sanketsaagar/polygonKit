@@ -1,0 +1,344 @@
+---
+title: 'WalletConnect Configuration'
+description: 'Set up WalletConnect for your PolygonKit application'
+---
+
+## Overview
+
+WalletConnect enables your app to connect with 300+ cryptocurrency wallets. PolygonKit uses WalletConnect (via Reown AppKit) to provide a seamless wallet connection experience.
+
+## Why WalletConnect?
+
+<CardGroup cols={2}>
+  <Card title="300+ Wallets" icon="wallet">
+    Support for MetaMask, Trust Wallet, Coinbase Wallet, Rainbow, and many more
+  </Card>
+  <Card title="QR Code Connection" icon="qrcode">
+    Users can scan QR codes to connect with mobile wallets
+  </Card>
+  <Card title="Mobile Deep Linking" icon="mobile">
+    Automatic deep linking to wallet apps on mobile devices
+  </Card>
+  <Card title="Secure" icon="shield">
+    End-to-end encrypted connection between app and wallet
+  </Card>
+</CardGroup>
+
+## Getting a Project ID
+
+<Steps>
+  <Step title="Create WalletConnect Account">
+    Visit [WalletConnect Cloud](https://cloud.walletconnect.com) and sign up for a free account.
+  </Step>
+
+  <Step title="Create New Project">
+    Click "New Project" and fill in your project details:
+    - **Project Name**: Your app's name
+    - **Homepage URL**: Your app's URL (can be localhost for development)
+  </Step>
+
+  <Step title="Copy Project ID">
+    Once created, you'll see your Project ID on the dashboard. Copy this ID.
+
+    It looks like: `f6bd6e2911b56f5ac3bc8b2d0e2d7ad5`
+  </Step>
+
+  <Step title="Add to Environment Variables">
+    Store your Project ID in environment variables (never commit this to version control):
+
+    <Tabs>
+      <Tab title="Next.js">
+        ```bash .env.local
+        NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
+        ```
+      </Tab>
+      <Tab title="Vite">
+        ```bash .env
+        VITE_WALLETCONNECT_PROJECT_ID=your_project_id_here
+        ```
+      </Tab>
+      <Tab title="Remix">
+        ```bash .env
+        VITE_WALLETCONNECT_PROJECT_ID=your_project_id_here
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Configure PolygonKit">
+    Pass your Project ID to the PolygonKitProvider:
+
+    <Tabs>
+      <Tab title="Next.js">
+        ```tsx
+        <PolygonKitProvider
+          config={{
+            projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+          }}
+        >
+          <App />
+        </PolygonKitProvider>
+        ```
+      </Tab>
+      <Tab title="Vite">
+        ```tsx
+        <PolygonKitProvider
+          config={{
+            projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
+          }}
+        >
+          <App />
+        </PolygonKitProvider>
+        ```
+      </Tab>
+      <Tab title="Remix">
+        ```tsx
+        <PolygonKitProvider
+          config={{
+            projectId: process.env.VITE_WALLETCONNECT_PROJECT_ID,
+          }}
+        >
+          <App />
+        </PolygonKitProvider>
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+<Warning>
+  Always use environment variables for your Project ID. Never hardcode it in your source code or commit it to version control.
+</Warning>
+
+## Default Project ID
+
+PolygonKit includes a default Project ID for quick development:
+
+```typescript
+projectId: 'f6bd6e2911b56f5ac3bc8b2d0e2d7ad5'
+```
+
+<Warning>
+  The default Project ID is for **development only**. You must create your own Project ID for production applications. The default ID may be rate-limited or revoked.
+</Warning>
+
+## WalletConnect Features
+
+### Wallet Selection Modal
+
+PolygonKit automatically shows a wallet selection modal when users click the connect button:
+
+```tsx
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+function App() {
+  return <ConnectWallet />;
+}
+```
+
+The modal includes:
+- Search functionality
+- Popular wallets highlighted
+- QR code for mobile wallet connection
+- "View All" to see 300+ supported wallets
+
+### QR Code Connection
+
+Desktop users can scan QR codes to connect with mobile wallets:
+
+1. Click "WalletConnect" in the modal
+2. Scan the QR code with your mobile wallet app
+3. Approve the connection in your wallet
+4. Connection established!
+
+### Mobile Deep Linking
+
+On mobile devices, PolygonKit automatically opens wallet apps:
+
+1. Tap a wallet in the connection modal
+2. The wallet app opens automatically
+3. Approve the connection
+4. Return to your app - you're connected!
+
+## Customizing Wallet Modal
+
+You can customize the appearance and behavior of the wallet modal through the PolygonKitProvider configuration:
+
+```tsx
+<PolygonKitProvider
+  config={{
+    projectId: 'YOUR_PROJECT_ID',
+    appName: 'My Polygon App',
+    appDescription: 'Connect your wallet to get started',
+    appUrl: 'https://myapp.com',
+    appIcons: ['https://myapp.com/logo.png'],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+These values appear in:
+- The wallet connection modal
+- The wallet app when requesting approval
+- WalletConnect session details
+
+## Project Analytics
+
+WalletConnect Cloud provides analytics for your project:
+
+- **Active Users**: Number of connected wallets
+- **Connection Events**: How many times users connect
+- **Wallet Distribution**: Which wallets users prefer
+- **Geographic Data**: Where your users are located
+
+Access analytics at: https://cloud.walletconnect.com
+
+## Rate Limits
+
+WalletConnect Cloud has rate limits based on your plan:
+
+| Plan | Requests/Month |
+|------|----------------|
+| Free | 1,000,000 |
+| Pro | 10,000,000+ |
+
+The free tier is sufficient for most applications. Upgrade if you need higher limits.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Create Separate Project IDs">
+    Use different Project IDs for development, staging, and production environments.
+  </Accordion>
+
+  <Accordion title="Monitor Usage">
+    Check your WalletConnect Cloud dashboard regularly to monitor usage and stay within rate limits.
+  </Accordion>
+
+  <Accordion title="Set Proper Metadata">
+    Provide accurate appName, appDescription, appUrl, and appIcons. This builds trust with users.
+  </Accordion>
+
+  <Accordion title="Test Multiple Wallets">
+    Test your app with different wallets (MetaMask, Coinbase Wallet, etc.) to ensure compatibility.
+  </Accordion>
+
+  <Accordion title="Handle Connection Errors">
+    Implement proper error handling for connection failures and provide helpful error messages.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+### Invalid Project ID Error
+
+**Problem**: "Invalid Project ID" error when connecting wallet.
+
+**Solution**:
+1. Verify your Project ID is correct
+2. Check that environment variables are loaded properly
+3. Ensure the Project ID hasn't been revoked
+4. Create a new Project ID if needed
+
+### Wallet Not Appearing in Modal
+
+**Problem**: A specific wallet doesn't show up in the connection modal.
+
+**Solution**:
+1. Ensure the wallet supports WalletConnect v2
+2. Check if the wallet is installed (for browser extension wallets)
+3. Try searching for the wallet by name in the modal
+4. Clear browser cache and try again
+
+### QR Code Not Working
+
+**Problem**: QR code doesn't connect with mobile wallet.
+
+**Solution**:
+1. Ensure your Project ID is valid
+2. Check that the wallet app supports WalletConnect v2
+3. Try a different wallet app
+4. Verify your internet connection is stable
+
+### Connection Drops Frequently
+
+**Problem**: Wallet connection drops after a short time.
+
+**Solution**:
+1. Check if you're hitting rate limits
+2. Upgrade your WalletConnect plan if needed
+3. Ensure proper session management in your app
+4. Verify network stability
+
+### Rate Limit Errors
+
+**Problem**: Hitting WalletConnect rate limits.
+
+**Solution**:
+1. Monitor your usage in WalletConnect Cloud
+2. Optimize connection logic to reduce unnecessary requests
+3. Upgrade to a paid plan for higher limits
+4. Implement caching to reduce API calls
+
+## Example: Connection Handler
+
+Handle connection events and errors:
+
+```tsx
+import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
+import { useEffect } from 'react';
+
+function WalletConnection() {
+  const { isConnected, address } = usePolygonKit();
+
+  useEffect(() => {
+    if (isConnected) {
+      console.log('Wallet connected:', address);
+      // Track analytics, show welcome message, etc.
+    }
+  }, [isConnected, address]);
+
+  const handleConnect = () => {
+    console.log('Opening wallet connection modal...');
+  };
+
+  const handleError = (error: Error) => {
+    console.error('Connection error:', error);
+    // Show user-friendly error message
+  };
+
+  return (
+    <ConnectWallet
+      onConnect={handleConnect}
+      onError={handleError}
+    />
+  );
+}
+```
+
+## Security Considerations
+
+<Warning>
+  - Never share your Project ID publicly in blog posts or screenshots
+  - Use environment variables to store your Project ID
+  - Rotate your Project ID if it's been compromised
+  - Enable notifications in WalletConnect Cloud for security alerts
+</Warning>
+
+## Additional Resources
+
+<CardGroup cols={2}>
+  <Card title="WalletConnect Cloud" icon="cloud" href="https://cloud.walletconnect.com">
+    Create and manage Project IDs
+  </Card>
+  <Card title="WalletConnect Docs" icon="book" href="https://docs.walletconnect.com">
+    Official WalletConnect documentation
+  </Card>
+  <Card title="Supported Wallets" icon="wallet" href="https://walletconnect.com/wallets">
+    Browse all supported wallets
+  </Card>
+  <Card title="WalletConnect Explorer" icon="compass" href="https://walletconnect.com/explorer">
+    Explore dApps and wallets
+  </Card>
+</CardGroup>

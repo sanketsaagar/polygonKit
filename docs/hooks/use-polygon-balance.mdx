@@ -1,0 +1,110 @@
+---
+title: 'usePolygonBalance'
+description: 'Fetch and display token balances'
+---
+
+## Overview
+
+The `usePolygonBalance` hook fetches the balance of native or ERC-20 tokens for a given address.
+
+## Usage
+
+```tsx
+import { usePolygonBalance } from '@sanketsaagar/polygon-kit';
+
+function BalanceDisplay({ address }: { address: Address }) {
+  const { balance, isLoading, error } = usePolygonBalance(address);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading balance</p>;
+
+  return <p>{balance?.formatted} {balance?.symbol}</p>;
+}
+```
+
+## Parameters
+
+<ParamField path="address" type="Address" required>
+  The wallet address to check balance for
+</ParamField>
+
+<ParamField path="token" type="Address">
+  ERC-20 token contract address (omit for native MATIC)
+</ParamField>
+
+## Return Values
+
+<ResponseField name="balance" type="Balance | undefined">
+  The balance object containing value, formatted, decimals, and symbol
+</ResponseField>
+
+<ResponseField name="isLoading" type="boolean">
+  Whether the balance is being fetched
+</ResponseField>
+
+<ResponseField name="error" type="Error | null">
+  Error object if the fetch failed
+</ResponseField>
+
+<ResponseField name="refetch" type="() => void">
+  Function to manually refetch the balance
+</ResponseField>
+
+## Examples
+
+### Native Token Balance
+
+```tsx
+function MaticBalance() {
+  const { address } = usePolygonKit();
+  const { balance } = usePolygonBalance(address!);
+
+  return <p>MATIC: {balance?.formatted}</p>;
+}
+```
+
+### ERC-20 Token Balance
+
+```tsx
+const USDC_ADDRESS = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
+
+function UsdcBalance() {
+  const { address } = usePolygonKit();
+  const { balance } = usePolygonBalance(address!, USDC_ADDRESS);
+
+  return <p>USDC: {balance?.formatted}</p>;
+}
+```
+
+### Multiple Balances
+
+```tsx
+function AllBalances() {
+  const { address } = usePolygonKit();
+  const { balance: matic } = usePolygonBalance(address!);
+  const { balance: usdc } = usePolygonBalance(address!, USDC_ADDRESS);
+
+  return (
+    <div>
+      <p>MATIC: {matic?.formatted}</p>
+      <p>USDC: {usdc?.formatted}</p>
+    </div>
+  );
+}
+```
+
+### With Refetch
+
+```tsx
+function BalanceWithRefresh() {
+  const { address } = usePolygonKit();
+  const { balance, refetch } = usePolygonBalance(address!);
+
+  return (
+    <div>
+      <p>{balance?.formatted} MATIC</p>
+      <button onClick={() => refetch()}>Refresh</button>
+    </div>
+  );
+}
+```

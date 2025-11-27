@@ -1,0 +1,208 @@
+---
+title: 'Install with Next.js'
+description: 'Set up PolygonKit in your Next.js application'
+---
+
+## Installation
+
+PolygonKit works seamlessly with Next.js 13+ (App Router and Pages Router).
+
+<Steps>
+  <Step title="Create a Next.js project">
+    If you don't have a Next.js project yet, create one:
+
+    <CodeGroup>
+
+    ```bash npm
+    npx create-next-app@latest my-polygon-app
+    cd my-polygon-app
+    ```
+
+    ```bash yarn
+    yarn create next-app my-polygon-app
+    cd my-polygon-app
+    ```
+
+    ```bash pnpm
+    pnpm create next-app my-polygon-app
+    cd my-polygon-app
+    ```
+
+    </CodeGroup>
+
+    When prompted, choose:
+    - TypeScript: **Yes**
+    - ESLint: **Yes**
+    - Tailwind CSS: **Yes** (recommended)
+    - App Router: **Yes** (recommended)
+  </Step>
+
+  <Step title="Install PolygonKit">
+    Install PolygonKit and its peer dependencies:
+
+    <CodeGroup>
+
+    ```bash npm
+    npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash yarn
+    yarn add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash pnpm
+    pnpm add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Configure for App Router">
+    If you're using the App Router, create a providers file with the `'use client'` directive:
+
+    ```tsx app/providers.tsx
+    'use client';
+
+    import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+    import { ReactNode } from 'react';
+
+    export function Providers({ children }: { children: ReactNode }) {
+      return (
+        <PolygonKitProvider>
+          {children}
+        </PolygonKitProvider>
+      );
+    }
+    ```
+
+    Then wrap your app in `app/layout.tsx`:
+
+    ```tsx app/layout.tsx
+    import { Providers } from './providers';
+    import './globals.css';
+
+    export default function RootLayout({
+      children,
+    }: {
+      children: React.ReactNode;
+    }) {
+      return (
+        <html lang="en">
+          <body>
+            <Providers>{children}</Providers>
+          </body>
+        </html>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Configure for Pages Router">
+    If you're using the Pages Router, wrap your app in `pages/_app.tsx`:
+
+    ```tsx pages/_app.tsx
+    import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+    import type { AppProps } from 'next/app';
+    import '@/styles/globals.css';
+
+    export default function App({ Component, pageProps }: AppProps) {
+      return (
+        <PolygonKitProvider>
+          <Component {...pageProps} />
+        </PolygonKitProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Use PolygonKit components">
+    Now you can use PolygonKit components in your pages:
+
+    <Tabs>
+      <Tab title="App Router">
+        ```tsx app/page.tsx
+        'use client';
+
+        import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+        export default function Home() {
+          const { address, isConnected } = usePolygonKit();
+
+          return (
+            <main className="min-h-screen p-8">
+              <h1 className="text-4xl font-bold mb-8">My Polygon App</h1>
+              <ConnectWallet />
+              {isConnected && <p className="mt-4">Connected: {address}</p>}
+            </main>
+          );
+        }
+        ```
+      </Tab>
+      <Tab title="Pages Router">
+        ```tsx pages/index.tsx
+        import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+        export default function Home() {
+          const { address, isConnected } = usePolygonKit();
+
+          return (
+            <main className="min-h-screen p-8">
+              <h1 className="text-4xl font-bold mb-8">My Polygon App</h1>
+              <ConnectWallet />
+              {isConnected && <p className="mt-4">Connected: {address}</p>}
+            </main>
+          );
+        }
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+## Configuration
+
+You can customize PolygonKit by passing configuration options:
+
+```tsx app/providers.tsx
+'use client';
+
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+import { polygon, polygonAmoy } from 'wagmi/chains';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <PolygonKitProvider
+      config={{
+        chains: [polygon, polygonAmoy],
+        projectId: 'YOUR_WALLETCONNECT_PROJECT_ID',
+        appName: 'My Polygon App',
+      }}
+    >
+      {children}
+    </PolygonKitProvider>
+  );
+}
+```
+
+<Card title="Next Steps" icon="arrow-right" href="/config/provider">
+  Learn more about configuration options
+</Card>
+
+## Troubleshooting
+
+### Hydration Errors
+
+If you see hydration errors with the App Router, make sure:
+1. You're using the `'use client'` directive in files that use PolygonKit hooks
+2. The `PolygonKitProvider` is in a separate client component file
+
+### Module Not Found Errors
+
+If you see module resolution errors, ensure:
+1. All peer dependencies are installed
+2. You're using Next.js 13 or later
+3. Your `tsconfig.json` has proper path resolution
+
+### WalletConnect Not Working
+
+Make sure you've configured your WalletConnect Project ID. See the [WalletConnect configuration guide](/config/walletconnect) for details.

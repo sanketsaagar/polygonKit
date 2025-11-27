@@ -1,0 +1,34 @@
+<svg width="800" height="200" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8247E5;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#A66EFF;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="200" fill="url(#grad1)" rx="12"/>
+
+  <!-- Main Polygon Logo -->
+  <g transform="translate(250, 60)">
+    <path d="M50 10L70 22V46L50 58L30 46V22L50 10Z" fill="#8247E5" stroke="#8247E5" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 30L60 36V44L50 50L40 44V36L50 30Z" fill="white"/>
+  </g>
+
+  <!-- Decorative smaller polygons -->
+  <g transform="translate(150, 40)" opacity="0.3">
+    <path d="M20 5L30 11V23L20 29L10 23V11L20 5Z" fill="#8247E5"/>
+  </g>
+
+  <g transform="translate(550, 120)" opacity="0.3">
+    <path d="M20 5L30 11V23L20 29L10 23V11L20 5Z" fill="#A66EFF"/>
+  </g>
+
+  <g transform="translate(650, 50)" opacity="0.2">
+    <path d="M15 5L23 10V18L15 23L7 18V10L15 5Z" fill="#8247E5"/>
+  </g>
+
+  <!-- Text -->
+  <text x="350" y="105" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#1a1a1a" text-anchor="start">PolygonKit</text>
+  <text x="350" y="135" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#666666" text-anchor="start">Build powerful onchain applications</text>
+</svg>

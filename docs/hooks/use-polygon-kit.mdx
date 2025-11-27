@@ -1,0 +1,150 @@
+---
+title: 'usePolygonKit'
+description: 'Access wallet state and connection information'
+---
+
+## Overview
+
+The `usePolygonKit` hook is the main hook for accessing wallet connection state, address, chain information, and wallet actions.
+
+## Usage
+
+```tsx
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+function MyComponent() {
+  const { address, isConnected, chain, balance, connect, disconnect } = usePolygonKit();
+
+  return (
+    <div>
+      {isConnected ? (
+        <p>Connected: {address}</p>
+      ) : (
+        <button onClick={connect}>Connect</button>
+      )}
+    </div>
+  );
+}
+```
+
+## Return Values
+
+<ResponseField name="address" type="Address | undefined">
+  The connected wallet address
+</ResponseField>
+
+<ResponseField name="isConnected" type="boolean">
+  Whether a wallet is connected
+</ResponseField>
+
+<ResponseField name="chain" type="Chain | undefined">
+  The current chain the wallet is connected to
+</ResponseField>
+
+<ResponseField name="balance" type="Balance | undefined">
+  The wallet's native token balance
+</ResponseField>
+
+<ResponseField name="connect" type="() => void">
+  Function to open the wallet connection modal
+</ResponseField>
+
+<ResponseField name="disconnect" type="() => void">
+  Function to disconnect the wallet
+</ResponseField>
+
+<ResponseField name="connectors" type="readonly Connector[]">
+  Available wallet connectors
+</ResponseField>
+
+## Examples
+
+### Display Wallet Info
+
+```tsx
+function WalletInfo() {
+  const { address, isConnected, chain, balance } = usePolygonKit();
+
+  if (!isConnected) {
+    return <p>Not connected</p>;
+  }
+
+  return (
+    <div>
+      <p>Address: {address}</p>
+      <p>Chain: {chain?.name}</p>
+      <p>Balance: {balance?.formatted} {balance?.symbol}</p>
+    </div>
+  );
+}
+```
+
+### Conditional Rendering
+
+```tsx
+function App() {
+  const { isConnected } = usePolygonKit();
+
+  return (
+    <div>
+      {isConnected ? (
+        <Dashboard />
+      ) : (
+        <LandingPage />
+      )}
+    </div>
+  );
+}
+```
+
+### Programmatic Connection
+
+```tsx
+function CustomConnectButton() {
+  const { connect, disconnect, isConnected } = usePolygonKit();
+
+  return (
+    <button onClick={isConnected ? disconnect : connect}>
+      {isConnected ? 'Disconnect' : 'Connect'}
+    </button>
+  );
+}
+```
+
+### Check Specific Chain
+
+```tsx
+import { polygon } from 'wagmi/chains';
+
+function PolygonOnlyContent() {
+  const { chain, isConnected } = usePolygonKit();
+
+  if (!isConnected) {
+    return <p>Connect your wallet</p>;
+  }
+
+  if (chain?.id !== polygon.id) {
+    return <p>Please switch to Polygon network</p>;
+  }
+
+  return <div>{/* Polygon-specific content */}</div>;
+}
+```
+
+## Type Safety
+
+The hook is fully typed for TypeScript:
+
+```tsx
+import type { Address } from 'viem';
+
+function Component() {
+  const { address } = usePolygonKit();
+
+  // address is typed as Address | undefined
+  if (address) {
+    // address is typed as Address here
+    console.log(address.toLowerCase());
+  }
+}
+```

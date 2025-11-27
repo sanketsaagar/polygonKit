@@ -1,0 +1,108 @@
+---
+title: 'Testing'
+description: 'Test your PolygonKit integration'
+---
+
+## Overview
+
+Learn how to test components and applications that use PolygonKit.
+
+## Unit Testing
+
+Test components using React Testing Library:
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+describe('ConnectWallet', () => {
+  it('renders connect button', () => {
+    render(
+      <PolygonKitProvider>
+        <ConnectWallet />
+      </PolygonKitProvider>
+    );
+
+    expect(screen.getByText('Connect Wallet')).toBeInTheDocument();
+  });
+});
+```
+
+## Mock Wallet Connection
+
+Mock wallet state for testing:
+
+```tsx
+import { vi } from 'vitest';
+
+vi.mock('@sanketsaagar/polygon-kit', () => ({
+  usePolygonKit: () => ({
+    address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7',
+    isConnected: true,
+    chain: { id: 137, name: 'Polygon' },
+  }),
+}));
+```
+
+## Integration Testing
+
+Test full wallet flows with Playwright or Cypress:
+
+```tsx
+// e2e/wallet.spec.ts
+import { test, expect } from '@playwright/test';
+
+test('connect wallet flow', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  // Click connect button
+  await page.click('text=Connect Wallet');
+
+  // Wait for modal
+  await page.waitForSelector('[data-testid="wallet-modal"]');
+
+  // Select MetaMask
+  await page.click('text=MetaMask');
+
+  // Verify connection
+  await expect(page.locator('text=0x')).toBeVisible();
+});
+```
+
+## Test with Test Networks
+
+Always test on Amoy testnet:
+
+```tsx
+import { polygonAmoy } from 'wagmi/chains';
+
+<PolygonKitProvider
+  config={{
+    chains: [polygonAmoy],
+    projectId: process.env.TEST_PROJECT_ID,
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Test Networks">
+    Always use testnets (Amoy) for testing, never mainnet.
+  </Accordion>
+
+  <Accordion title="Mock Wallet State">
+    Mock wallet connections in unit tests to avoid needing real wallets.
+  </Accordion>
+
+  <Accordion title="Test Error States">
+    Test how your app handles connection errors and transaction failures.
+  </Accordion>
+
+  <Accordion title="E2E Testing">
+    Use end-to-end tests for critical wallet flows.
+  </Accordion>
+</AccordionGroup>

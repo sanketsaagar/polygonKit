@@ -1,0 +1,94 @@
+---
+title: 'Token Components'
+description: 'Display token balances and information'
+---
+
+## Overview
+
+Token components help you display cryptocurrency balances and token information in your application.
+
+## TokenBalance
+
+Display the balance of native or ERC-20 tokens.
+
+### Basic Usage
+
+```tsx
+import { TokenBalance } from '@sanketsaagar/polygon-kit';
+
+function Balance({ address }: { address: string }) {
+  return <TokenBalance address={address as `0x${string}`} />;
+}
+```
+
+### Props
+
+<ParamField path="address" type="Address" required>
+  The wallet address to check balance for
+</ParamField>
+
+<ParamField path="token" type="Address">
+  ERC-20 token contract address (omit for native MATIC)
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+<ParamField path="decimals" type="number" default="4">
+  Number of decimal places to display
+</ParamField>
+
+### Native Token Balance
+
+```tsx
+<TokenBalance address={userAddress} />
+```
+
+### ERC-20 Token Balance
+
+```tsx
+<TokenBalance
+  address={userAddress}
+  token="0x..." // Token contract address
+/>
+```
+
+## TokenIcon
+
+Display an icon for a token.
+
+```tsx
+import { TokenIcon } from '@sanketsaagar/polygon-kit';
+
+<TokenIcon symbol="MATIC" size={32} />
+```
+
+## Complete Example
+
+```tsx
+import { TokenBalance, usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+function WalletBalances() {
+  const { address } = usePolygonKit();
+
+  if (!address) return null;
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <h3 className="font-semibold">MATIC Balance</h3>
+        <TokenBalance address={address} />
+      </div>
+
+      <div>
+        <h3 className="font-semibold">USDC Balance</h3>
+        <TokenBalance
+          address={address}
+          token="0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174" // USDC on Polygon
+        />
+      </div>
+    </div>
+  );
+}
+```

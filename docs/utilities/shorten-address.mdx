@@ -1,0 +1,77 @@
+---
+title: 'shortenAddress'
+description: 'Shorten wallet addresses for display'
+---
+
+## Overview
+
+The `shortenAddress` utility function shortens Ethereum addresses to a more readable format.
+
+## Usage
+
+```tsx
+import { shortenAddress } from '@sanketsaagar/polygon-kit';
+
+const address = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7';
+const short = shortenAddress(address);
+// Returns: "0x742d...bEb7"
+```
+
+## Parameters
+
+<ParamField path="address" type="string" required>
+  The full Ethereum address
+</ParamField>
+
+<ParamField path="chars" type="number" default="4">
+  Number of characters to show on each side
+</ParamField>
+
+## Examples
+
+### Default Shortening
+
+```tsx
+shortenAddress('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7');
+// "0x742d...bEb7"
+```
+
+### Custom Length
+
+```tsx
+shortenAddress('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7', 6);
+// "0x742d35...5f0bEb7"
+```
+
+### In Component
+
+```tsx
+import { shortenAddress } from '@sanketsaagar/polygon-kit';
+
+function AddressDisplay({ address }: { address: string }) {
+  return (
+    <p className="font-mono">
+      {shortenAddress(address)}
+    </p>
+  );
+}
+```
+
+### With Copy Button
+
+```tsx
+import { shortenAddress } from '@sanketsaagar/polygon-kit';
+
+function CopyableAddress({ address }: { address: string }) {
+  const copy = () => {
+    navigator.clipboard.writeText(address);
+  };
+
+  return (
+    <button onClick={copy} className="flex items-center gap-2">
+      <span className="font-mono">{shortenAddress(address)}</span>
+      <CopyIcon />
+    </button>
+  );
+}
+```

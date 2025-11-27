@@ -1,0 +1,349 @@
+---
+title: 'Install with Remix'
+description: 'Set up PolygonKit in your Remix application'
+---
+
+## Installation
+
+PolygonKit integrates seamlessly with Remix. Follow these steps to get started.
+
+<Steps>
+  <Step title="Create a Remix project">
+    Create a new Remix project:
+
+    <CodeGroup>
+
+    ```bash npm
+    npx create-remix@latest my-polygon-app
+    cd my-polygon-app
+    ```
+
+    ```bash yarn
+    yarn create remix my-polygon-app
+    cd my-polygon-app
+    ```
+
+    ```bash pnpm
+    pnpm create remix my-polygon-app
+    cd my-polygon-app
+    ```
+
+    </CodeGroup>
+
+    When prompted, choose:
+    - TypeScript: **Yes**
+    - Deployment target: Choose your preference
+  </Step>
+
+  <Step title="Install PolygonKit">
+    Install PolygonKit and its peer dependencies:
+
+    <CodeGroup>
+
+    ```bash npm
+    npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash yarn
+    yarn add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    ```bash pnpm
+    pnpm add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Create a client-only provider">
+    Create `app/components/providers.tsx`:
+
+    ```tsx app/components/providers.tsx
+    import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+    import { ReactNode } from 'react';
+
+    export function Providers({ children }: { children: ReactNode }) {
+      return (
+        <PolygonKitProvider>
+          {children}
+        </PolygonKitProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Create a client entry point">
+    Create `app/entry.client.tsx` if it doesn't exist:
+
+    ```tsx app/entry.client.tsx
+    import { RemixBrowser } from '@remix-run/react';
+    import { startTransition, StrictMode } from 'react';
+    import { hydrateRoot } from 'react-dom/client';
+
+    startTransition(() => {
+      hydrateRoot(
+        document,
+        <StrictMode>
+          <RemixBrowser />
+        </StrictMode>
+      );
+    });
+    ```
+  </Step>
+
+  <Step title="Update root layout">
+    Wrap your app with the Providers component in `app/root.tsx`:
+
+    ```tsx app/root.tsx
+    import type { MetaFunction } from '@remix-run/node';
+    import {
+      Links,
+      LiveReload,
+      Meta,
+      Outlet,
+      Scripts,
+      ScrollRestoration,
+    } from '@remix-run/react';
+    import { Providers } from './components/providers';
+
+    export const meta: MetaFunction = () => {
+      return [
+        { title: 'My Polygon App' },
+        { name: 'description', content: 'Built with PolygonKit' },
+      ];
+    };
+
+    export default function App() {
+      return (
+        <html lang="en">
+          <head>
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Providers>
+              <Outlet />
+            </Providers>
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Create your first page">
+    Update `app/routes/_index.tsx`:
+
+    ```tsx app/routes/_index.tsx
+    import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+    export default function Index() {
+      const { address, isConnected } = usePolygonKit();
+
+      return (
+        <div className="min-h-screen p-8">
+          <h1 className="text-4xl font-bold mb-8">My Polygon App</h1>
+          <ConnectWallet />
+          {isConnected && (
+            <div className="mt-4">
+              <p>Connected: {address}</p>
+            </div>
+          )}
+        </div>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Run your app">
+    Start the development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    Visit `http://localhost:3000` and connect your wallet!
+  </Step>
+</Steps>
+
+## Configuration
+
+Customize PolygonKit with configuration options:
+
+```tsx app/components/providers.tsx
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
+import { polygon, polygonAmoy } from 'wagmi/chains';
+import { ReactNode } from 'react';
+
+export function Providers({ children }: { children: ReactNode }) {
+  return (
+    <PolygonKitProvider
+      config={{
+        chains: [polygon, polygonAmoy],
+        projectId: process.env.WALLETCONNECT_PROJECT_ID,
+        appName: 'My Polygon App',
+      }}
+    >
+      {children}
+    </PolygonKitProvider>
+  );
+}
+```
+
+## Environment Variables
+
+Create a `.env` file:
+
+```bash .env
+WALLETCONNECT_PROJECT_ID=your_project_id_here
+```
+
+For client-side variables, prefix with `VITE_` in Remix:
+
+```bash .env
+VITE_WALLETCONNECT_PROJECT_ID=your_project_id_here
+```
+
+Access them in your code:
+
+```tsx
+const projectId = process.env.VITE_WALLETCONNECT_PROJECT_ID;
+```
+
+<Warning>
+  Only variables prefixed with `VITE_` are exposed to the client in Remix. Keep sensitive server-side variables without this prefix.
+</Warning>
+
+## Server-Side Rendering (SSR)
+
+PolygonKit components need to run on the client. Ensure wallet-related code only runs in the browser:
+
+### Method 1: Use ClientOnly Component
+
+Create `app/components/client-only.tsx`:
+
+```tsx app/components/client-only.tsx
+import { useEffect, useState } from 'react';
+
+export function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return mounted ? <>{children}</> : null;
+}
+```
+
+Use it to wrap PolygonKit components:
+
+```tsx
+import { ClientOnly } from '~/components/client-only';
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+export default function Index() {
+  return (
+    <ClientOnly>
+      <ConnectWallet />
+    </ClientOnly>
+  );
+}
+```
+
+### Method 2: Lazy Load Components
+
+```tsx app/routes/_index.tsx
+import { lazy, Suspense } from 'react';
+
+const WalletComponents = lazy(() => import('~/components/wallet-components'));
+
+export default function Index() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <WalletComponents />
+    </Suspense>
+  );
+}
+```
+
+## Styling with Tailwind CSS
+
+Add Tailwind CSS to your Remix app:
+
+<Steps>
+  <Step title="Install Tailwind">
+    ```bash
+    npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init -p
+    ```
+  </Step>
+
+  <Step title="Configure Tailwind">
+    Update `tailwind.config.ts`:
+
+    ```ts tailwind.config.ts
+    import type { Config } from 'tailwindcss';
+
+    export default {
+      content: ['./app/**/*.{js,jsx,ts,tsx}'],
+      theme: {
+        extend: {},
+      },
+      plugins: [],
+    } satisfies Config;
+    ```
+  </Step>
+
+  <Step title="Create CSS file">
+    Create `app/styles/tailwind.css`:
+
+    ```css app/styles/tailwind.css
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```
+  </Step>
+
+  <Step title="Import in root">
+    Import in `app/root.tsx`:
+
+    ```tsx
+    import styles from './styles/tailwind.css';
+
+    export const links = () => [{ rel: 'stylesheet', href: styles }];
+    ```
+  </Step>
+</Steps>
+
+<Card title="Next Steps" icon="arrow-right" href="/config/provider">
+  Learn more about configuration options
+</Card>
+
+## Troubleshooting
+
+### Hydration Mismatch Errors
+
+If you see hydration mismatch errors:
+1. Wrap wallet components in `ClientOnly`
+2. Use lazy loading for components that interact with wallets
+3. Ensure localStorage access only happens on the client
+
+### Window is Not Defined
+
+If you see "window is not defined" errors:
+1. Make sure wallet code only runs in the browser
+2. Use `typeof window !== 'undefined'` checks
+3. Wrap components with `ClientOnly`
+
+### Module Resolution Issues
+
+If imports aren't resolving:
+1. Check your `tsconfig.json` paths configuration
+2. Ensure all peer dependencies are installed
+3. Clear the Remix cache: `rm -rf .cache`

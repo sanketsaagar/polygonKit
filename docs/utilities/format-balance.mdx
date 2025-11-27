@@ -1,0 +1,67 @@
+---
+title: 'formatBalance'
+description: 'Format token balances for display'
+---
+
+## Overview
+
+The `formatBalance` utility function formats raw token balances (in wei) to human-readable strings.
+
+## Usage
+
+```tsx
+import { formatBalance } from '@sanketsaagar/polygon-kit';
+
+const balance = BigInt('1000000000000000000'); // 1 MATIC in wei
+const formatted = formatBalance(balance, 18, 4);
+// Returns: "1.0000"
+```
+
+## Parameters
+
+<ParamField path="value" type="bigint" required>
+  The raw balance value in smallest unit (wei)
+</ParamField>
+
+<ParamField path="decimals" type="number" default="18">
+  The number of decimals for the token
+</ParamField>
+
+<ParamField path="displayDecimals" type="number" default="4">
+  Number of decimal places to display
+</ParamField>
+
+## Examples
+
+### Format MATIC Balance
+
+```tsx
+const balance = BigInt('1500000000000000000'); // 1.5 MATIC
+formatBalance(balance, 18, 2); // "1.50"
+```
+
+### Format USDC Balance
+
+```tsx
+const balance = BigInt('1000000'); // 1 USDC (6 decimals)
+formatBalance(balance, 6, 2); // "1.00"
+```
+
+### In Component
+
+```tsx
+import { formatBalance } from '@sanketsaagar/polygon-kit';
+import { useBalance } from 'wagmi';
+
+function BalanceDisplay({ address }: { address: Address }) {
+  const { data: balance } = useBalance({ address });
+
+  if (!balance) return null;
+
+  return (
+    <p>
+      {formatBalance(balance.value, balance.decimals)} {balance.symbol}
+    </p>
+  );
+}
+```

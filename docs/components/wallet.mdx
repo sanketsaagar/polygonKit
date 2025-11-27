@@ -1,0 +1,316 @@
+---
+title: 'Wallet Components'
+description: 'Connect and manage wallet connections with PolygonKit'
+---
+
+## Overview
+
+PolygonKit provides a complete set of wallet components for connecting, disconnecting, and displaying wallet information. These components handle all the complexity of wallet management for you.
+
+## ConnectWallet
+
+The primary component for wallet connection. Shows a button that opens the WalletConnect modal.
+
+### Basic Usage
+
+```tsx
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+function App() {
+  return <ConnectWallet />;
+}
+```
+
+### Props
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the button
+</ParamField>
+
+<ParamField path="onConnect" type="(address: Address) => void">
+  Callback function called when wallet is connected
+</ParamField>
+
+<ParamField path="onDisconnect" type="() => void">
+  Callback function called when wallet is disconnected
+</ParamField>
+
+<ParamField path="children" type="ReactNode">
+  Custom content to render instead of the default button
+</ParamField>
+
+### Custom Styling
+
+```tsx
+<ConnectWallet className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full" />
+```
+
+### With Callbacks
+
+```tsx
+<ConnectWallet
+  onConnect={(address) => {
+    console.log('Connected:', address);
+    // Track analytics, show notification, etc.
+  }}
+  onDisconnect={() => {
+    console.log('Disconnected');
+    // Clear user data, redirect, etc.
+  }}
+/>
+```
+
+### Custom Children
+
+```tsx
+<ConnectWallet>
+  <span className="flex items-center gap-2">
+    <WalletIcon />
+    Connect Your Wallet
+  </span>
+</ConnectWallet>
+```
+
+## Wallet
+
+A container component for grouping wallet-related UI elements.
+
+### Basic Usage
+
+```tsx
+import { Wallet, ConnectWallet, WalletDropdown } from '@sanketsaagar/polygon-kit';
+
+function Header() {
+  const { isConnected } = usePolygonKit();
+
+  return (
+    <Wallet>
+      {isConnected ? <WalletDropdown /> : <ConnectWallet />}
+    </Wallet>
+  );
+}
+```
+
+### Props
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the container
+</ParamField>
+
+<ParamField path="children" type="ReactNode">
+  Child components to render
+</ParamField>
+
+## WalletDropdown
+
+A dropdown menu showing wallet information and actions when connected.
+
+### Basic Usage
+
+```tsx
+import { WalletDropdown } from '@sanketsaagar/polygon-kit';
+
+function Header() {
+  return <WalletDropdown />;
+}
+```
+
+### Features
+
+- Displays connected address (shortened)
+- Shows current balance
+- Displays current network
+- Copy address button
+- Disconnect button
+- Chain switcher (if multiple chains configured)
+
+## Complete Example
+
+Here's a complete header with wallet functionality:
+
+```tsx
+import {
+  Wallet,
+  ConnectWallet,
+  WalletDropdown,
+  usePolygonKit,
+} from '@sanketsaagar/polygon-kit';
+
+function Header() {
+  const { isConnected } = usePolygonKit();
+
+  return (
+    <header className="bg-white shadow">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold">My Polygon App</h1>
+
+        <Wallet>
+          {isConnected ? (
+            <WalletDropdown />
+          ) : (
+            <ConnectWallet
+              onConnect={(address) => {
+                console.log('Welcome!', address);
+              }}
+            />
+          )}
+        </Wallet>
+      </div>
+    </header>
+  );
+}
+```
+
+## Advanced Patterns
+
+### Conditional Rendering
+
+Show different UI based on connection status:
+
+```tsx
+import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
+
+function App() {
+  const { isConnected, address } = usePolygonKit();
+
+  if (!isConnected) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <h1 className="text-3xl font-bold mb-4">Welcome</h1>
+        <p className="text-gray-600 mb-8">Connect your wallet to continue</p>
+        <ConnectWallet />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <p>Welcome back, {address}!</p>
+      {/* Your app content */}
+    </div>
+  );
+}
+```
+
+### Protected Routes
+
+Require wallet connection to access certain pages:
+
+```tsx
+import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
+import { Navigate } from 'react-router-dom';
+
+function ProtectedPage() {
+  const { isConnected } = usePolygonKit();
+
+  if (!isConnected) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold mb-4">Authentication Required</h2>
+        <ConnectWallet />
+      </div>
+    );
+  }
+
+  return <div>{/* Protected content */}</div>;
+}
+```
+
+### Loading States
+
+Show loading state while connecting:
+
+```tsx
+import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
+import { useState } from 'react';
+
+function WalletButton() {
+  const { isConnected } = usePolygonKit();
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const handleConnect = (address: string) => {
+    setIsConnecting(false);
+    console.log('Connected:', address);
+  };
+
+  return (
+    <ConnectWallet
+      onConnect={handleConnect}
+      className={isConnecting ? 'opacity-50 cursor-wait' : ''}
+    >
+      {isConnecting ? (
+        <span className="flex items-center gap-2">
+          <Spinner />
+          Connecting...
+        </span>
+      ) : (
+        'Connect Wallet'
+      )}
+    </ConnectWallet>
+  );
+}
+```
+
+## Styling
+
+All wallet components support custom styling through the `className` prop:
+
+```tsx
+// Tailwind CSS
+<ConnectWallet className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg" />
+
+// Custom CSS
+<ConnectWallet className="my-custom-wallet-button" />
+```
+
+## Accessibility
+
+Wallet components include proper accessibility features:
+
+- Keyboard navigation support
+- ARIA labels for screen readers
+- Focus indicators
+- Semantic HTML elements
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Always Use Callbacks">
+    Implement onConnect and onDisconnect callbacks to track user actions and update your app state accordingly.
+  </Accordion>
+
+  <Accordion title="Provide Context">
+    Tell users why they need to connect their wallet. Don't just show a button without explanation.
+  </Accordion>
+
+  <Accordion title="Handle Errors Gracefully">
+    Wallet connection can fail for many reasons. Provide helpful error messages to guide users.
+  </Accordion>
+
+  <Accordion title="Test Multiple Wallets">
+    Test your implementation with different wallets (MetaMask, Coinbase Wallet, etc.) to ensure compatibility.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<Accordion title="Button doesn't open modal">
+  Ensure PolygonKitProvider is wrapping your app and has a valid WalletConnect Project ID configured.
+</Accordion>
+
+<Accordion title="Styling not working">
+  Check that Tailwind CSS is properly configured in your project. PolygonKit uses Tailwind for default styles.
+</Accordion>
+
+<Accordion title="Callbacks not firing">
+  Verify your callback functions are stable (use useCallback if needed) to avoid unnecessary re-renders.
+</Accordion>
+
+<CardGroup cols={2}>
+  <Card title="Identity Components" icon="user" href="/components/identity">
+    Display user information
+  </Card>
+  <Card title="usePolygonKit Hook" icon="link" href="/hooks/use-polygon-kit">
+    Access wallet state programmatically
+  </Card>
+</CardGroup>

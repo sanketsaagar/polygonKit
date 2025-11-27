@@ -1,0 +1,178 @@
+---
+title: Introduction
+description: 'Build powerful onchain applications on Polygon with ease'
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.svg"
+  alt="PolygonKit Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.svg"
+  alt="PolygonKit Hero Dark"
+/>
+
+## Welcome to PolygonKit
+
+PolygonKit is a comprehensive React library for building full-fledged web3 applications on Polygon. Inspired by OnchainKit, it provides battle-tested components, hooks, and utilities to create seamless onchain experiences.
+
+<CardGroup cols={2}>
+  <Card
+    title="Quick Start"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Get started with PolygonKit in under 5 minutes
+  </Card>
+  <Card
+    title="Components"
+    icon="layer-group"
+    href="/components/wallet"
+  >
+    Explore our ready-to-use React components
+  </Card>
+  <Card
+    title="Hooks"
+    icon="link"
+    href="/hooks/use-polygon-kit"
+  >
+    Access blockchain data with custom hooks
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    Complete TypeScript API documentation
+  </Card>
+</CardGroup>
+
+## Why PolygonKit?
+
+<AccordionGroup>
+  <Accordion icon="wallet" title="Built-in Wallet Management">
+    Connect to 300+ wallets with WalletConnect integration. Supports MetaMask, Coinbase Wallet, and more out of the box.
+  </Accordion>
+
+  <Accordion icon="puzzle-piece" title="Modular Components">
+    Use pre-built components or compose your own. Every component is fully customizable with TailwindCSS.
+  </Accordion>
+
+  <Accordion icon="bolt" title="TypeScript First">
+    Full type safety with comprehensive TypeScript definitions. Catch errors before they reach production.
+  </Accordion>
+
+  <Accordion icon="palette" title="Customizable Design">
+    Style components to match your brand. Built with TailwindCSS and supports custom themes.
+  </Accordion>
+
+  <Accordion icon="layer-group" title="Multi-Chain Support">
+    Works with Polygon PoS, zkEVM, Amoy testnet, and Mumbai. Easy chain switching built-in.
+  </Accordion>
+
+  <Accordion icon="gauge-high" title="Production Ready">
+    Battle-tested components used in real applications. Includes proper error handling and loading states.
+  </Accordion>
+</AccordionGroup>
+
+## Features
+
+<CardGroup cols={3}>
+  <Card title="Wallet" icon="wallet">
+    Connect, disconnect, and manage wallet connections with ease
+  </Card>
+  <Card title="Identity" icon="user">
+    Display user avatars, names, and ENS profiles
+  </Card>
+  <Card title="Transactions" icon="exchange">
+    Send transactions with status tracking and confirmations
+  </Card>
+  <Card title="Tokens" icon="coins">
+    Display token balances and information
+  </Card>
+  <Card title="Swap" icon="shuffle">
+    Token swap interface with built-in routing
+  </Card>
+  <Card title="Hooks" icon="link">
+    Custom React hooks for blockchain interactions
+  </Card>
+</CardGroup>
+
+## Installation
+
+Get started by installing PolygonKit and its peer dependencies:
+
+<CodeGroup>
+
+```bash npm
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+```
+
+```bash yarn
+yarn add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+```
+
+```bash pnpm
+pnpm add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+```
+
+```bash bun
+bun add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+```
+
+</CodeGroup>
+
+## Quick Example
+
+Here's a minimal example to get you started:
+
+```tsx
+import { PolygonKitProvider, ConnectWallet } from '@sanketsaagar/polygon-kit';
+
+function App() {
+  return (
+    <PolygonKitProvider>
+      <ConnectWallet />
+    </PolygonKitProvider>
+  );
+}
+```
+
+<Card title="Continue to Quick Start" icon="arrow-right" href="/quickstart">
+  Follow our step-by-step guide to build your first app
+</Card>
+
+## Community & Support
+
+<CardGroup cols={2}>
+  <Card
+    title="GitHub"
+    icon="github"
+    href="https://github.com/sanketsaagar/polygonKit"
+  >
+    View source code and contribute
+  </Card>
+  <Card
+    title="npm Package"
+    icon="npm"
+    href="https://www.npmjs.com/package/@sanketsaagar/polygon-kit"
+  >
+    Install from npm registry
+  </Card>
+  <Card
+    title="Report Issues"
+    icon="bug"
+    href="https://github.com/sanketsaagar/polygonKit/issues"
+  >
+    Found a bug? Let us know
+  </Card>
+  <Card
+    title="Polygon Docs"
+    icon="book"
+    href="https://docs.polygon.technology"
+  >
+    Learn more about Polygon
+  </Card>
+</CardGroup>
