@@ -511,12 +511,6 @@ Contributions are welcome! Please read our contributing guidelines and submit pu
 
 MIT
 
-## Support
-
-- [Documentation](https://polygon-kit.docs.polygon.technology)
-- [GitHub Issues](https://github.com/polygon/polygon-kit/issues)
-- [Discord Community](https://discord.gg/polygon)
-
 ---
 
 Built with ❤️ for the Polygon ecosystem
