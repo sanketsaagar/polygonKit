@@ -672,7 +672,7 @@ const defaultChains = [polygon, polygonAmoy, polygonZkEVM];
 ### Custom Chain Configuration
 
 ```tsx
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 
 const customChain = {
   id: 137,
@@ -703,7 +703,7 @@ const customChain = {
 ### Programmatic Transactions
 
 ```tsx
-import { usePolygonTransaction } from '@polygon/polygon-kit';
+import { usePolygonTransaction } from '@sanketsaagar/polygon-kit';
 import { encodeFunctionData } from 'viem';
 
 function TransferToken() {

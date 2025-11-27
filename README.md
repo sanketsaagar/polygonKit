@@ -37,7 +37,7 @@ pnpm add github:sanketsaagar/polygonKit wagmi viem @tanstack/react-query
 ### Install from NPM (Coming Soon)
 
 ```bash
-npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
 ```
 
 ## Quick Start
@@ -45,7 +45,7 @@ npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
 ### 1. Wrap your app with PolygonKitProvider
 
 ```tsx
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 
 function App() {
   return (
@@ -59,7 +59,7 @@ function App() {
 ### 2. Use Wallet Components
 
 ```tsx
-import { Wallet, ConnectWallet, WalletDropdown } from '@polygon/polygon-kit';
+import { Wallet, ConnectWallet, WalletDropdown } from '@sanketsaagar/polygon-kit';
 
 function Header() {
   return (
@@ -74,7 +74,7 @@ function Header() {
 ### 3. Display User Identity
 
 ```tsx
-import { Identity } from '@polygon/polygon-kit';
+import { Identity } from '@sanketsaagar/polygon-kit';
 
 function UserProfile({ address }) {
   return (
@@ -294,7 +294,7 @@ Token swap interface (integrate with your DEX aggregator).
 Main hook for wallet interactions.
 
 ```tsx
-import { usePolygonKit } from '@polygon/polygon-kit';
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
 
 function Component() {
   const { address, isConnected, chain, balance, connect, disconnect } = usePolygonKit();
@@ -325,7 +325,7 @@ function Component() {
 Get token balance with formatting.
 
 ```tsx
-import { usePolygonBalance } from '@polygon/polygon-kit';
+import { usePolygonBalance } from '@sanketsaagar/polygon-kit';
 
 function Component({ address }) {
   const { balance, formatted, symbol, isLoading } = usePolygonBalance(address);
@@ -354,7 +354,7 @@ function Component({ address }) {
 Send transactions with status tracking.
 
 ```tsx
-import { usePolygonTransaction } from '@polygon/polygon-kit';
+import { usePolygonTransaction } from '@sanketsaagar/polygon-kit';
 
 function Component() {
   const { send, hash, isPending, isConfirming, isSuccess } = usePolygonTransaction();
@@ -393,7 +393,7 @@ import {
   shortenAddress,
   formatBalance,
   parseTokenAmount
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 // Shorten address: 0x1234...5678
 const short = shortenAddress('0x1234567890123456789012345678901234567890');
@@ -408,7 +408,7 @@ const parsed = parseTokenAmount('1.5', 18);
 ## Chain Constants
 
 ```tsx
-import { polygon, polygonAmoy, polygonZkEVM } from '@polygon/polygon-kit';
+import { polygon, polygonAmoy, polygonZkEVM } from '@sanketsaagar/polygon-kit';
 
 console.log(polygon.id); // 137
 console.log(polygonAmoy.id); // 80002
@@ -435,7 +435,7 @@ import {
   TransactionButton,
   Swap,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function Dashboard() {
   const { address, isConnected } = usePolygonKit();

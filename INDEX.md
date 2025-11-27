@@ -236,7 +236,7 @@ Looking for specific information? Try these:
 
 ### Minimal App
 ```tsx
-import { PolygonKitProvider, ConnectWallet } from '@polygon/polygon-kit';
+import { PolygonKitProvider, ConnectWallet } from '@sanketsaagar/polygon-kit';
 
 function App() {
   return (
@@ -256,7 +256,7 @@ import {
   WalletDropdown,
   Identity,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function Dashboard() {
   const { address, isConnected } = usePolygonKit();
@@ -292,7 +292,7 @@ Want to help improve PolygonKit?
 
 ## 📦 Package Information
 
-- **Name**: `@polygon/polygon-kit`
+- **Name**: `@sanketsaagar/polygon-kit`
 - **Version**: 0.1.0
 - **License**: MIT
 - **Repository**: GitHub

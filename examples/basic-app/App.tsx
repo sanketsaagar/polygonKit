@@ -8,7 +8,7 @@ import {
   TokenBalance,
   Swap,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function Dashboard() {
   const { address, isConnected, chain } = usePolygonKit();

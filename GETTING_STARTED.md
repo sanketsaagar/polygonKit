@@ -21,7 +21,7 @@ cd my-polygon-app
 ### Step 2: Install PolygonKit and dependencies
 
 ```bash
-npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
 ```
 
 ### Step 3: Install TailwindCSS (optional but recommended)
@@ -63,7 +63,7 @@ Update your `src/main.tsx`:
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 import App from './App';
 import './index.css';
 
@@ -81,7 +81,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 Update your `src/App.tsx`:
 
 ```tsx
-import { ConnectWallet, usePolygonKit } from '@polygon/polygon-kit';
+import { ConnectWallet, usePolygonKit } from '@sanketsaagar/polygon-kit';
 
 function App() {
   const { address, isConnected } = usePolygonKit();
@@ -118,7 +118,7 @@ Visit `http://localhost:5173` and connect your wallet!
 ### Add User Identity
 
 ```tsx
-import { Identity } from '@polygon/polygon-kit';
+import { Identity } from '@sanketsaagar/polygon-kit';
 
 function App() {
   const { address, isConnected } = usePolygonKit();
@@ -143,7 +143,7 @@ function App() {
 ### Add Transaction Capability
 
 ```tsx
-import { TransactionButton } from '@polygon/polygon-kit';
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
 
 function SendTransaction() {
   return (
@@ -165,7 +165,7 @@ function SendTransaction() {
 ### Add Token Swap
 
 ```tsx
-import { Swap } from '@polygon/polygon-kit';
+import { Swap } from '@sanketsaagar/polygon-kit';
 
 function SwapInterface() {
   return (
@@ -189,7 +189,7 @@ import {
   TransactionButton,
   Swap,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function Dashboard() {
   const { address, isConnected, chain } = usePolygonKit();
@@ -275,7 +275,7 @@ export default App;
 Access wallet state and methods:
 
 ```tsx
-import { usePolygonKit } from '@polygon/polygon-kit';
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
 
 function MyComponent() {
   const {
@@ -304,7 +304,7 @@ function MyComponent() {
 Get formatted token balance:
 
 ```tsx
-import { usePolygonBalance } from '@polygon/polygon-kit';
+import { usePolygonBalance } from '@sanketsaagar/polygon-kit';
 
 function BalanceDisplay({ address }) {
   const { formatted, symbol, isLoading } = usePolygonBalance(address);
@@ -320,7 +320,7 @@ function BalanceDisplay({ address }) {
 Send transactions programmatically:
 
 ```tsx
-import { usePolygonTransaction } from '@polygon/polygon-kit';
+import { usePolygonTransaction } from '@sanketsaagar/polygon-kit';
 
 function SendButton() {
   const { send, isPending, isSuccess, hash } = usePolygonTransaction();
@@ -348,7 +348,7 @@ function SendButton() {
 ### Custom Chains
 
 ```tsx
-import { PolygonKitProvider, polygon, polygonAmoy } from '@polygon/polygon-kit';
+import { PolygonKitProvider, polygon, polygonAmoy } from '@sanketsaagar/polygon-kit';
 
 function App() {
   return (
@@ -366,7 +366,7 @@ function App() {
 ### Custom RPC URLs
 
 ```tsx
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 
 const customPolygon = {
   ...polygon,

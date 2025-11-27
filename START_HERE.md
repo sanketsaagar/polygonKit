@@ -82,7 +82,7 @@ pnpm lint
 ### Simple App
 
 ```tsx
-import { PolygonKitProvider, ConnectWallet } from '@polygon/polygon-kit';
+import { PolygonKitProvider, ConnectWallet } from '@sanketsaagar/polygon-kit';
 
 function App() {
   return (
@@ -102,7 +102,7 @@ import {
   WalletDropdown,
   Identity,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function Dashboard() {
   const { address, isConnected } = usePolygonKit();
@@ -125,13 +125,13 @@ function Dashboard() {
 ### 1. Install
 
 ```bash
-npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
 ```
 
 ### 2. Set up Provider
 
 ```tsx
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 
 <PolygonKitProvider>
   <App />
@@ -141,7 +141,7 @@ import { PolygonKitProvider } from '@polygon/polygon-kit';
 ### 3. Use Components
 
 ```tsx
-import { ConnectWallet } from '@polygon/polygon-kit';
+import { ConnectWallet } from '@sanketsaagar/polygon-kit';
 
 <ConnectWallet />
 ```

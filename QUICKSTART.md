@@ -25,7 +25,7 @@ npm install github:sanketsaagar/polygonKit wagmi viem @tanstack/react-query
 
 Or when published to NPM:
 ```bash
-npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
 ```
 
 ### Step 3: Install TailwindCSS (recommended)
@@ -74,10 +74,13 @@ Add to `src/index.css`:
 
 ### 1. Set up the provider (src/main.tsx)
 
+PolygonKit uses **Reown AppKit** (WalletConnect) to provide a beautiful wallet selection modal with 300+ wallet options.
+
+**Basic Setup (uses default project ID):**
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 import App from './App';
 import './index.css';
 
@@ -90,6 +93,23 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 ```
 
+**With Custom Configuration (recommended for production):**
+```tsx
+<PolygonKitProvider
+  config={{
+    projectId: 'YOUR_WALLETCONNECT_PROJECT_ID', // Get from https://cloud.walletconnect.com
+    appName: 'My Polygon App',
+    appDescription: 'My awesome Polygon application',
+    appUrl: 'https://myapp.com',
+    appIcons: ['https://myapp.com/icon.png'],
+  }}
+>
+  <App />
+</PolygonKitProvider>
+```
+
+> **Note:** Get your free WalletConnect Project ID at [https://cloud.walletconnect.com](https://cloud.walletconnect.com)
+
 ### 2. Create your first component (src/App.tsx)
 
 ```tsx
@@ -99,7 +119,7 @@ import {
   WalletDropdown,
   Identity,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function App() {
   const { address, isConnected } = usePolygonKit();
@@ -166,7 +186,7 @@ Visit `http://localhost:5173` and connect your wallet!
 ### Add a Send Transaction Button
 
 ```tsx
-import { TransactionButton } from '@polygon/polygon-kit';
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
 
 function SendButton() {
   return (
@@ -188,7 +208,7 @@ function SendButton() {
 ### Display Token Balance
 
 ```tsx
-import { TokenBalance } from '@polygon/polygon-kit';
+import { TokenBalance } from '@sanketsaagar/polygon-kit';
 
 function BalanceDisplay({ address }) {
   return (
@@ -203,7 +223,7 @@ function BalanceDisplay({ address }) {
 ### Add Token Swap
 
 ```tsx
-import { Swap } from '@polygon/polygon-kit';
+import { Swap } from '@sanketsaagar/polygon-kit';
 
 function SwapWidget() {
   return (
@@ -218,7 +238,7 @@ function SwapWidget() {
 ### Use Hooks for Custom Logic
 
 ```tsx
-import { usePolygonKit, usePolygonBalance } from '@polygon/polygon-kit';
+import { usePolygonKit, usePolygonBalance } from '@sanketsaagar/polygon-kit';
 
 function CustomComponent() {
   const { address, isConnected, chain } = usePolygonKit();
@@ -321,7 +341,7 @@ document.documentElement.classList.toggle('dark');
 ### Custom Chains
 
 ```tsx
-import { PolygonKitProvider, polygon, polygonAmoy } from '@polygon/polygon-kit';
+import { PolygonKitProvider, polygon, polygonAmoy } from '@sanketsaagar/polygon-kit';
 
 <PolygonKitProvider
   config={{
@@ -335,7 +355,7 @@ import { PolygonKitProvider, polygon, polygonAmoy } from '@polygon/polygon-kit';
 ### Custom RPC
 
 ```tsx
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 
 const customPolygon = {
   ...polygon,
@@ -402,7 +422,7 @@ import {
   TokenBalance,
   Swap,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function App() {
   const { address, isConnected, chain } = usePolygonKit();

@@ -4,7 +4,7 @@ This guide shows you how to deploy PolygonKit so anyone can use it.
 
 ## Option 1: Publish to NPM (Recommended)
 
-This allows users to install with: `npm install @polygon/polygon-kit`
+This allows users to install with: `npm install @sanketsaagar/polygon-kit`
 
 ### Prerequisites
 
@@ -27,7 +27,7 @@ npm pack  # Creates a .tgz file
 # 4. Publish to NPM
 npm publish --access public
 
-# For scoped packages (@polygon/polygon-kit)
+# For scoped packages (@sanketsaagar/polygon-kit)
 # You may need to specify the scope access
 ```
 
@@ -37,7 +37,7 @@ If you don't have access to `@polygon` scope, update `package.json`:
 
 ```json
 {
-  "name": "polygon-chain-kit",  // Instead of @polygon/polygon-kit
+  "name": "polygon-chain-kit",  // Instead of @sanketsaagar/polygon-kit
   // ... rest of config
 }
 ```
@@ -81,7 +81,7 @@ git push -u origin main
 
 ```json
 {
-  "name": "@polygon/polygon-kit",
+  "name": "@sanketsaagar/polygon-kit",
   "version": "0.1.0",
   "repository": {
     "type": "git",
@@ -184,7 +184,7 @@ process.chdir(projectName);
 
 // Install dependencies
 console.log('\nInstalling PolygonKit and dependencies...');
-execSync('npm install @polygon/polygon-kit wagmi viem @tanstack/react-query', {
+execSync('npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query', {
   stdio: 'inherit',
 });
 
@@ -300,7 +300,7 @@ npm install github:YOUR_USERNAME/polygon-kit
 ### From NPM (Coming Soon)
 
 ```bash
-npm install @polygon/polygon-kit
+npm install @sanketsaagar/polygon-kit
 ```
 
 ---
@@ -313,7 +313,7 @@ When ready to publish to NPM:
 
 ```json
 {
-  "name": "@polygon/polygon-kit",
+  "name": "@sanketsaagar/polygon-kit",
   "version": "0.1.0",
   "description": "React components and TypeScript utilities for building onchain apps on Polygon",
   "main": "dist/index.js",
@@ -372,7 +372,7 @@ npm publish --access public --scope @polygon
 ### 4. Verify
 
 ```bash
-npm info @polygon/polygon-kit
+npm info @sanketsaagar/polygon-kit
 ```
 
 ---

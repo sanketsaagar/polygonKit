@@ -282,7 +282,7 @@ pnpm link --global
 
 ```bash
 cd your-test-project
-pnpm link --global @polygon/polygon-kit
+pnpm link --global @sanketsaagar/polygon-kit
 ```
 
 ## Documentation

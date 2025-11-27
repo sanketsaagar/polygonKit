@@ -159,13 +159,13 @@ polygon-kit/
 ## Installation
 
 ```bash
-npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
 ```
 
 ## Quick Start
 
 ```tsx
-import { PolygonKitProvider, ConnectWallet } from '@polygon/polygon-kit';
+import { PolygonKitProvider, ConnectWallet } from '@sanketsaagar/polygon-kit';
 
 function App() {
   return (
@@ -181,7 +181,7 @@ function App() {
 ### Simple Wallet Connection
 
 ```tsx
-import { Wallet, ConnectWallet, WalletDropdown } from '@polygon/polygon-kit';
+import { Wallet, ConnectWallet, WalletDropdown } from '@sanketsaagar/polygon-kit';
 
 <Wallet>
   <ConnectWallet />
@@ -192,7 +192,7 @@ import { Wallet, ConnectWallet, WalletDropdown } from '@polygon/polygon-kit';
 ### Display User Profile
 
 ```tsx
-import { Identity } from '@polygon/polygon-kit';
+import { Identity } from '@sanketsaagar/polygon-kit';
 
 <Identity
   address="0x..."
@@ -205,7 +205,7 @@ import { Identity } from '@polygon/polygon-kit';
 ### Send Transaction
 
 ```tsx
-import { TransactionButton } from '@polygon/polygon-kit';
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
 
 <TransactionButton
   text="Send MATIC"
@@ -217,7 +217,7 @@ import { TransactionButton } from '@polygon/polygon-kit';
 ### Token Swap
 
 ```tsx
-import { Swap } from '@polygon/polygon-kit';
+import { Swap } from '@sanketsaagar/polygon-kit';
 
 <Swap
   onSuccess={(hash) => console.log('Swapped:', hash)}
@@ -281,7 +281,7 @@ pnpm test
 
 1. **Install the package**
    ```bash
-   npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
+   npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
    ```
 
 2. **Follow Getting Started guide**

@@ -55,7 +55,7 @@ Update `src/main.tsx`:
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 import App from './App';
 import './index.css';
 
@@ -79,7 +79,7 @@ import {
   WalletDropdown,
   Identity,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function App() {
   const { address, isConnected } = usePolygonKit();
@@ -137,7 +137,7 @@ When ready to publish to NPM registry:
 
 1. Create an NPM account at https://www.npmjs.com/signup
 2. Decide on package name:
-   - `@polygon/polygon-kit` (requires Polygon org access)
+   - `@sanketsaagar/polygon-kit` (requires Polygon org access)
    - `polygon-chain-kit` (available public name)
 
 ### Steps to Publish
@@ -149,7 +149,7 @@ npm login
 # 2. Update package name if needed (in package.json)
 # If you don't have @polygon scope access:
 {
-  "name": "polygon-chain-kit",  // instead of @polygon/polygon-kit
+  "name": "polygon-chain-kit",  // instead of @sanketsaagar/polygon-kit
   ...
 }
 
@@ -306,7 +306,7 @@ git push && git push --tags
 
 ## 🔧 Troubleshooting
 
-### Issue: Cannot find module '@polygon/polygon-kit'
+### Issue: Cannot find module '@sanketsaagar/polygon-kit'
 
 **Solution**: Make sure you installed from GitHub:
 ```bash

@@ -5,13 +5,13 @@ One-page reference for the most common PolygonKit operations.
 ## Installation
 
 ```bash
-npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
 ```
 
 ## Setup
 
 ```tsx
-import { PolygonKitProvider } from '@polygon/polygon-kit';
+import { PolygonKitProvider } from '@sanketsaagar/polygon-kit';
 
 <PolygonKitProvider>
   <App />
@@ -23,7 +23,7 @@ import { PolygonKitProvider } from '@polygon/polygon-kit';
 ### Wallet
 
 ```tsx
-import { Wallet, ConnectWallet, WalletDropdown } from '@polygon/polygon-kit';
+import { Wallet, ConnectWallet, WalletDropdown } from '@sanketsaagar/polygon-kit';
 
 // Simple connection
 <ConnectWallet />
@@ -38,7 +38,7 @@ import { Wallet, ConnectWallet, WalletDropdown } from '@polygon/polygon-kit';
 ### Identity
 
 ```tsx
-import { Identity, Avatar, Name } from '@polygon/polygon-kit';
+import { Identity, Avatar, Name } from '@sanketsaagar/polygon-kit';
 
 // Complete profile
 <Identity address="0x..." showAvatar showAddress showBalance />
@@ -53,7 +53,7 @@ import { Identity, Avatar, Name } from '@polygon/polygon-kit';
 ### Transactions
 
 ```tsx
-import { TransactionButton, TransactionStatus } from '@polygon/polygon-kit';
+import { TransactionButton, TransactionStatus } from '@sanketsaagar/polygon-kit';
 
 // Send transaction
 <TransactionButton
@@ -69,7 +69,7 @@ import { TransactionButton, TransactionStatus } from '@polygon/polygon-kit';
 ### Tokens
 
 ```tsx
-import { Token, TokenBalance } from '@polygon/polygon-kit';
+import { Token, TokenBalance } from '@sanketsaagar/polygon-kit';
 
 // Display token
 <Token address="0x..." symbol="USDC" amount="100" />
@@ -81,7 +81,7 @@ import { Token, TokenBalance } from '@polygon/polygon-kit';
 ### Swap
 
 ```tsx
-import { Swap } from '@polygon/polygon-kit';
+import { Swap } from '@sanketsaagar/polygon-kit';
 
 <Swap
   onSuccess={(hash) => console.log(hash)}
@@ -94,7 +94,7 @@ import { Swap } from '@polygon/polygon-kit';
 ### usePolygonKit
 
 ```tsx
-import { usePolygonKit } from '@polygon/polygon-kit';
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
 
 const {
   address,      // Current address
@@ -109,7 +109,7 @@ const {
 ### usePolygonBalance
 
 ```tsx
-import { usePolygonBalance } from '@polygon/polygon-kit';
+import { usePolygonBalance } from '@sanketsaagar/polygon-kit';
 
 const {
   balance,      // Raw balance (bigint)
@@ -123,7 +123,7 @@ const {
 ### usePolygonTransaction
 
 ```tsx
-import { usePolygonTransaction } from '@polygon/polygon-kit';
+import { usePolygonTransaction } from '@sanketsaagar/polygon-kit';
 
 const {
   send,         // Send function
@@ -145,7 +145,7 @@ import {
   shortenAddress,
   formatBalance,
   parseTokenAmount
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 // Shorten address
 shortenAddress('0x1234...7890'); // '0x1234...7890'
@@ -160,7 +160,7 @@ parseTokenAmount('1.5', 18); // 1500000000000000000n
 ## Chains
 
 ```tsx
-import { polygon, polygonAmoy, polygonZkEVM } from '@polygon/polygon-kit';
+import { polygon, polygonAmoy, polygonZkEVM } from '@sanketsaagar/polygon-kit';
 
 // Use in config
 <PolygonKitProvider config={{ chains: [polygon, polygonAmoy] }}>
@@ -180,7 +180,7 @@ import {
   WalletDropdown,
   Identity,
   usePolygonKit,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 function Dashboard() {
   const { address, isConnected } = usePolygonKit();
@@ -209,7 +209,7 @@ function App() {
 ### Send Native Token
 
 ```tsx
-import { TransactionButton } from '@polygon/polygon-kit';
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
 
 <TransactionButton
   text="Send 1 MATIC"
@@ -224,7 +224,7 @@ import { TransactionButton } from '@polygon/polygon-kit';
 ### Send ERC20 Token
 
 ```tsx
-import { usePolygonTransaction } from '@polygon/polygon-kit';
+import { usePolygonTransaction } from '@sanketsaagar/polygon-kit';
 import { encodeFunctionData } from 'viem';
 
 const { send } = usePolygonTransaction();
@@ -250,7 +250,7 @@ const transferToken = () => {
 ### Check Balance Before Action
 
 ```tsx
-import { usePolygonBalance } from '@polygon/polygon-kit';
+import { usePolygonBalance } from '@sanketsaagar/polygon-kit';
 
 function SendButton({ address }) {
   const { balance, formatted } = usePolygonBalance(address);
@@ -271,7 +271,7 @@ function SendButton({ address }) {
 
 ```tsx
 import { useSwitchChain } from 'wagmi';
-import { polygon, polygonZkEVM } from '@polygon/polygon-kit';
+import { polygon, polygonZkEVM } from '@sanketsaagar/polygon-kit';
 
 function NetworkSwitcher() {
   const { switchChain } = useSwitchChain();
@@ -319,7 +319,7 @@ import type {
   Chain,
   PolygonKitConfig,
   TransactionCall,
-} from '@polygon/polygon-kit';
+} from '@sanketsaagar/polygon-kit';
 
 // Address type
 const address: Address = '0x...';
@@ -342,7 +342,7 @@ const call: TransactionCall = {
 ## Error Handling
 
 ```tsx
-import { TransactionButton } from '@polygon/polygon-kit';
+import { TransactionButton } from '@sanketsaagar/polygon-kit';
 
 <TransactionButton
   calls={[{ to: '0x...', value: BigInt(1e18) }]}
@@ -361,7 +361,7 @@ import { TransactionButton } from '@polygon/polygon-kit';
 ## Testing Connection
 
 ```tsx
-import { usePolygonKit } from '@polygon/polygon-kit';
+import { usePolygonKit } from '@sanketsaagar/polygon-kit';
 
 function ConnectionStatus() {
   const { address, isConnected, chain } = usePolygonKit();
@@ -393,7 +393,7 @@ if (typeof window.ethereum === 'undefined') {
 ### 2. Wrong network
 ```tsx
 import { useAccount, useSwitchChain } from 'wagmi';
-import { polygon } from '@polygon/polygon-kit';
+import { polygon } from '@sanketsaagar/polygon-kit';
 
 function NetworkGuard({ children }) {
   const { chain } = useAccount();
