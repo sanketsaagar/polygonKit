@@ -1,5 +1,6 @@
 // src/components/PolygonKitProvider.tsx
 import { WagmiProvider, createConfig, http } from "wagmi";
+import { injected, walletConnect, coinbaseWallet } from "wagmi/connectors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // src/constants/chains.ts
@@ -111,6 +112,14 @@ function PolygonKitProvider({
   const chains = userConfig?.chains || [polygon, polygonAmoy, polygonZkEVM];
   const config = createConfig({
     chains,
+    connectors: [
+      injected(),
+      coinbaseWallet({ appName: "PolygonKit App" }),
+      walletConnect({
+        projectId: userConfig?.projectId || "YOUR_PROJECT_ID",
+        showQrModal: true
+      })
+    ],
     transports: chains.reduce((acc, chain) => {
       acc[chain.id] = http(chain.rpcUrls.default.http[0]);
       return acc;

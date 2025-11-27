@@ -50,6 +50,7 @@ module.exports = __toCommonJS(index_exports);
 
 // src/components/PolygonKitProvider.tsx
 var import_wagmi = require("wagmi");
+var import_connectors = require("wagmi/connectors");
 var import_react_query = require("@tanstack/react-query");
 
 // src/constants/chains.ts
@@ -161,6 +162,14 @@ function PolygonKitProvider({
   const chains = userConfig?.chains || [polygon, polygonAmoy, polygonZkEVM];
   const config = (0, import_wagmi.createConfig)({
     chains,
+    connectors: [
+      (0, import_connectors.injected)(),
+      (0, import_connectors.coinbaseWallet)({ appName: "PolygonKit App" }),
+      (0, import_connectors.walletConnect)({
+        projectId: userConfig?.projectId || "YOUR_PROJECT_ID",
+        showQrModal: true
+      })
+    ],
     transports: chains.reduce((acc, chain) => {
       acc[chain.id] = (0, import_wagmi.http)(chain.rpcUrls.default.http[0]);
       return acc;

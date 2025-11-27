@@ -31,11 +31,10 @@ npm install @polygon/polygon-kit wagmi viem @tanstack/react-query
 ### Step 3: Install TailwindCSS (recommended)
 
 ```bash
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
+npm install -D tailwindcss @tailwindcss/postcss autoprefixer
 ```
 
-Configure `tailwind.config.js`:
+Create `tailwind.config.js`:
 
 ```js
 /** @type {import('tailwindcss').Config} */
@@ -49,6 +48,17 @@ export default {
     extend: {},
   },
   plugins: [],
+}
+```
+
+Create `postcss.config.js`:
+
+```js
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+    autoprefixer: {},
+  },
 }
 ```
 
