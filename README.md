@@ -4,6 +4,12 @@
 
 PolygonKit is a comprehensive React library inspired by OnchainKit, specifically designed for building web3 applications on Polygon. It provides battle-tested components, hooks, and utilities to create seamless onchain experiences.
 
+## 📚 Documentation
+
+**[View Full Documentation →](https://polygonlabs.mintlify.app/introduction)**
+
+Complete guides, API reference, and examples available at [polygonlabs.mintlify.app](https://polygonlabs.mintlify.app)
+
 ## Features
 
 - **Wallet Management** - Easy wallet connection and account management
