@@ -16,28 +16,28 @@ PolygonKit is a comprehensive React library inspired by OnchainKit, specifically
 
 ## Installation
 
+### Install from NPM (Recommended)
+
+```bash
+npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+```
+
+or
+
+```bash
+yarn add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+```
+
+or
+
+```bash
+pnpm add @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
+```
+
 ### Install from GitHub
 
 ```bash
 npm install github:sanketsaagar/polygonKit wagmi viem @tanstack/react-query
-```
-
-or
-
-```bash
-yarn add github:sanketsaagar/polygonKit wagmi viem @tanstack/react-query
-```
-
-or
-
-```bash
-pnpm add github:sanketsaagar/polygonKit wagmi viem @tanstack/react-query
-```
-
-### Install from NPM (Coming Soon)
-
-```bash
-npm install @sanketsaagar/polygon-kit wagmi viem @tanstack/react-query
 ```
 
 ## Quick Start
