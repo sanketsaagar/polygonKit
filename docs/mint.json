@@ -54,6 +54,7 @@
     {
       "group": "Installation",
       "pages": [
+        "installation/cli",
         "installation/nextjs",
         "installation/vite",
         "installation/remix"

@@ -3,13 +3,40 @@ title: 'Install with Vite'
 description: 'Set up PolygonKit in your Vite application'
 ---
 
-## Installation
+## Recommended: Use the CLI
 
-PolygonKit works perfectly with Vite and React. This is the fastest way to get started.
+The fastest way to create a Vite app with PolygonKit:
+
+```bash
+npx create-polygon-kit my-app
+# Choose Vite when prompted
+```
+
+This creates a complete Vite app with:
+- Pre-configured PolygonKit components
+- Wallet connection with WalletConnect
+- Pre-built dashboard UI
+- TailwindCSS v4 with Vite plugin
+- Lightning-fast HMR
+- Full TypeScript support
+
+<Card title="CLI Documentation" icon="terminal" href="/installation/cli">
+  Learn more about the CLI and all available options
+</Card>
+
+## Manual Installation
+
+If you prefer to add PolygonKit to an existing Vite project manually:
+
+<Note>
+  The CLI is recommended for new projects. Manual installation is best for adding PolygonKit to existing Vite apps.
+</Note>
+
+PolygonKit works perfectly with Vite and React.
 
 <Steps>
   <Step title="Create a Vite project">
-    Create a new Vite project with React and TypeScript:
+    If you don't have a Vite project yet, create one:
 
     <CodeGroup>
 

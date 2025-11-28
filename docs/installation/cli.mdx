@@ -1,0 +1,395 @@
+---
+title: 'Quick Start with CLI'
+description: 'Create a PolygonKit app in seconds with create-polygon-kit'
+---
+
+## The Fastest Way to Get Started
+
+The `create-polygon-kit` CLI is the easiest way to scaffold a new PolygonKit project. It sets up everything you need with pre-configured templates for Next.js or Vite.
+
+<Note>
+  **Recommended**: This is the fastest way to start building with PolygonKit. Your project will be ready in under a minute!
+</Note>
+
+## Quick Start
+
+Create a new PolygonKit project with a single command:
+
+<CodeGroup>
+
+```bash npm
+npx create-polygon-kit my-app
+```
+
+```bash yarn
+yarn create polygon-kit my-app
+```
+
+```bash pnpm
+pnpm create polygon-kit my-app
+```
+
+```bash bun
+bunx create-polygon-kit my-app
+```
+
+</CodeGroup>
+
+Or run without a project name to be prompted:
+
+```bash
+npx create-polygon-kit
+```
+
+## Interactive Setup
+
+The CLI will guide you through an interactive setup:
+
+<Steps>
+  <Step title="Project Name">
+    First, you'll be asked to name your project (if you didn't provide it):
+
+    ```
+    ? What is your project named? › my-polygon-app
+    ```
+
+    The CLI will check if the directory already exists and prevent overwriting.
+  </Step>
+
+  <Step title="Choose Framework">
+    Select your preferred framework:
+
+    ```
+    ? Which framework would you like to use?
+    ❯ Next.js - React framework with SSR
+      Vite - Fast build tool with HMR
+    ```
+
+    Both options come with:
+    - Full TypeScript support
+    - Pre-configured PolygonKit components
+    - Wallet connection with WalletConnect
+    - TailwindCSS v4 for styling
+    - Pre-built dashboard UI
+  </Step>
+
+  <Step title="TypeScript Configuration">
+    Choose whether to use TypeScript:
+
+    ```
+    ? Would you like to use TypeScript? › (Y/n)
+    ```
+
+    We recommend using TypeScript for the best development experience with full type safety.
+  </Step>
+
+  <Step title="Install Dependencies">
+    Decide if you want to install dependencies immediately:
+
+    ```
+    ? Install dependencies now? › (Y/n)
+    ```
+
+    If you choose "Yes", the CLI will automatically run `npm install` for you.
+  </Step>
+</Steps>
+
+## What's Included
+
+Every generated project includes:
+
+<CardGroup cols={2}>
+  <Card title="PolygonKit Components" icon="layer-group">
+    Pre-configured Wallet, Identity, Transaction, Token, and Swap components
+  </Card>
+  <Card title="Wallet Connection" icon="wallet">
+    WalletConnect integration with support for 300+ wallets
+  </Card>
+  <Card title="Pre-built Dashboard" icon="grid-2">
+    Beautiful dashboard UI with Identity component and wallet management
+  </Card>
+  <Card title="TailwindCSS v4" icon="palette">
+    Latest TailwindCSS with Vite plugin for instant styling
+  </Card>
+  <Card title="TypeScript" icon="code">
+    Full type safety with TypeScript configuration
+  </Card>
+  <Card title="Development Tools" icon="wrench">
+    ESLint, dev server, and hot module replacement
+  </Card>
+</CardGroup>
+
+## Project Structure
+
+After running the CLI, your project will have this structure:
+
+<Tabs>
+  <Tab title="Next.js">
+    ```
+    my-polygon-app/
+    ├── app/
+    │   ├── layout.tsx          # Root layout with providers
+    │   ├── page.tsx            # Main page with dashboard
+    │   ├── providers.tsx       # Client-side providers
+    │   └── globals.css         # Global styles
+    ├── public/
+    ├── package.json
+    ├── tsconfig.json
+    ├── tailwind.config.ts
+    └── next.config.js
+    ```
+
+    The Next.js template uses the App Router with server and client components properly configured.
+  </Tab>
+  <Tab title="Vite">
+    ```
+    my-polygon-app/
+    ├── src/
+    │   ├── App.tsx             # Main app with dashboard
+    │   ├── main.tsx            # Entry point with providers
+    │   ├── App.css             # Component styles
+    │   └── index.css           # Global styles with Tailwind
+    ├── public/
+    ├── index.html
+    ├── package.json
+    ├── tsconfig.json
+    ├── vite.config.ts
+    └── tailwind.config.ts
+    ```
+
+    The Vite template includes optimized build configuration and HMR support.
+  </Tab>
+</Tabs>
+
+## Running Your App
+
+After the CLI completes, navigate to your project and start developing:
+
+```bash
+cd my-polygon-app
+npm run dev
+```
+
+<Tabs>
+  <Tab title="Next.js">
+    Your Next.js app will be available at:
+
+    ```
+    http://localhost:3000
+    ```
+
+    The development server includes:
+    - Fast Refresh for instant updates
+    - Server and Client Component support
+    - Optimized production builds
+  </Tab>
+  <Tab title="Vite">
+    Your Vite app will be available at:
+
+    ```
+    http://localhost:5173
+    ```
+
+    The development server includes:
+    - Lightning-fast Hot Module Replacement (HMR)
+    - Optimized dependency pre-bundling
+    - Built-in TypeScript support
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+After your project is created, here's what to do:
+
+<Steps>
+  <Step title="Configure WalletConnect">
+    Get your free Project ID from [WalletConnect Cloud](https://cloud.walletconnect.com) and add it to your app. See the [WalletConnect configuration guide](/config/walletconnect).
+  </Step>
+
+  <Step title="Customize Your App">
+    The generated project includes a pre-built dashboard. Customize it to match your needs:
+    - Modify the UI components
+    - Add your branding and colors
+    - Integrate your business logic
+  </Step>
+
+  <Step title="Explore Components">
+    Learn about all available PolygonKit components:
+    - [Wallet Component](/components/wallet) - Wallet connection management
+    - [Identity Component](/components/identity) - User profiles and avatars
+    - [Transaction Component](/components/transaction) - Send transactions
+    - [Token Component](/components/token) - Display token balances
+    - [Swap Component](/components/swap) - Token swapping interface
+  </Step>
+
+  <Step title="Use Hooks">
+    Access blockchain data with PolygonKit hooks:
+    - [usePolygonKit](/hooks/use-polygon-kit) - Core wallet state
+    - [usePolygonBalance](/hooks/use-polygon-balance) - Token balances
+    - [usePolygonTransaction](/hooks/use-polygon-transaction) - Transaction status
+  </Step>
+</Steps>
+
+## Framework Comparison
+
+Choose the framework that best fits your needs:
+
+| Feature | Next.js | Vite |
+|---------|---------|------|
+| Build Speed | Fast | Fastest |
+| SSR/SSG | Yes | No |
+| SEO | Excellent | Manual |
+| Routing | File-based | Manual |
+| API Routes | Yes | No |
+| Best For | Full-stack apps | SPAs |
+
+<AccordionGroup>
+  <Accordion title="When to Choose Next.js">
+    Choose Next.js if you need:
+    - Server-side rendering (SSR) for better SEO
+    - Static site generation (SSG) for landing pages
+    - API routes for backend logic
+    - File-based routing
+    - Full-stack application with backend
+  </Accordion>
+
+  <Accordion title="When to Choose Vite">
+    Choose Vite if you need:
+    - Fastest possible development experience
+    - Single-page application (SPA)
+    - Client-side only rendering
+    - Smaller bundle sizes
+    - Quick prototyping
+  </Accordion>
+</AccordionGroup>
+
+## Template Features
+
+Both templates come with a pre-built dashboard that includes:
+
+### Wallet Connection Flow
+- Beautiful "Welcome to PolygonKit" screen when not connected
+- One-click wallet connection with WalletConnect
+- Support for 300+ wallets (MetaMask, Coinbase Wallet, Rainbow, etc.)
+
+### Dashboard UI
+- Gradient background with dark mode support
+- Header with app title and wallet dropdown
+- User profile card with Identity component showing:
+  - User avatar
+  - Wallet address
+  - Account balance
+- Quick actions section for your custom features
+- Responsive design that works on all devices
+
+### Styling
+- TailwindCSS v4 with Vite plugin (for Vite template)
+- TailwindCSS v4 with PostCSS (for Next.js template)
+- Dark mode support built-in
+- Gradient backgrounds and modern UI
+- Fully customizable styles
+
+## Manual Installation
+
+If you prefer to set up your project manually without the CLI, see the framework-specific guides:
+
+<CardGroup cols={2}>
+  <Card title="Next.js Manual Setup" icon="next" href="/installation/nextjs">
+    Step-by-step Next.js installation guide
+  </Card>
+  <Card title="Vite Manual Setup" icon="vite" href="/installation/vite">
+    Step-by-step Vite installation guide
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+### Directory Already Exists
+
+If you see "Directory already exists" error:
+
+```bash
+# Choose a different name
+npx create-polygon-kit my-new-app-name
+
+# Or remove the existing directory
+rm -rf my-polygon-app
+npx create-polygon-kit my-polygon-app
+```
+
+### Dependency Installation Failed
+
+If automatic installation fails:
+
+```bash
+cd my-polygon-app
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Template Not Found
+
+If you see "Template not found" error, ensure you're using the latest version:
+
+```bash
+npx create-polygon-kit@latest my-app
+```
+
+### Port Already in Use
+
+If the default port is already in use:
+
+<Tabs>
+  <Tab title="Next.js">
+    ```bash
+    # Next.js will automatically try the next available port
+    npm run dev
+
+    # Or specify a custom port
+    PORT=3001 npm run dev
+    ```
+  </Tab>
+  <Tab title="Vite">
+    ```bash
+    # Vite will automatically try the next available port
+    npm run dev
+
+    # Or edit vite.config.ts to set a custom port
+    ```
+  </Tab>
+</Tabs>
+
+## Support
+
+Need help? We're here for you:
+
+<CardGroup cols={2}>
+  <Card
+    title="GitHub Issues"
+    icon="github"
+    href="https://github.com/sanketsaagar/create-polygon-kit/issues"
+  >
+    Report bugs or request features
+  </Card>
+  <Card
+    title="Documentation"
+    icon="book"
+    href="/introduction"
+  >
+    Browse the full documentation
+  </Card>
+  <Card
+    title="npm Package"
+    icon="npm"
+    href="https://www.npmjs.com/package/create-polygon-kit"
+  >
+    View the CLI package on npm
+  </Card>
+  <Card
+    title="Polygon Docs"
+    icon="link"
+    href="https://docs.polygon.technology"
+  >
+    Learn more about Polygon
+  </Card>
+</CardGroup>
