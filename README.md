@@ -6,9 +6,9 @@ PolygonKit is a comprehensive React library inspired by OnchainKit, specifically
 
 ## 📚 Documentation
 
-**[View Full Documentation →](https://docs.polygonkit.com)**
+**[View Full Documentation →](https://polygonlabs.mintlify.app/)**
 
-Complete guides, API reference, and examples available at [docs.polygonkit.com](https://docs.polygonkit.com)
+Complete guides, API reference, and examples available [here](https://polygonlabs.mintlify.app/)
 
 ## Features
 
