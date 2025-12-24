@@ -2,11 +2,11 @@ import { Chain } from '../types';
 
 export const polygon: Chain = {
   id: 137,
-  name: 'Polygon',
+  name: 'Polygon PoS',
   network: 'matic',
   nativeCurrency: {
-    name: 'MATIC',
-    symbol: 'MATIC',
+    name: 'POL',
+    symbol: 'POL',
     decimals: 18,
   },
   rpcUrls: {
@@ -52,11 +52,11 @@ export const polygonMumbai: Chain = {
 
 export const polygonAmoy: Chain = {
   id: 80002,
-  name: 'Polygon Amoy',
+  name: 'Amoy Testnet',
   network: 'polygon-amoy',
   nativeCurrency: {
-    name: 'MATIC',
-    symbol: 'MATIC',
+    name: 'POL',
+    symbol: 'POL',
     decimals: 18,
   },
   rpcUrls: {

@@ -28,6 +28,7 @@ __export(index_exports, {
   Swap: () => Swap,
   Token: () => Token,
   TokenBalance: () => TokenBalance,
+  TokenIcon: () => TokenIcon,
   Transaction: () => Transaction,
   TransactionButton: () => TransactionButton,
   TransactionStatus: () => TransactionStatus,
@@ -57,11 +58,11 @@ var import_appkit_adapter_wagmi = require("@reown/appkit-adapter-wagmi");
 // src/constants/chains.ts
 var polygon = {
   id: 137,
-  name: "Polygon",
+  name: "Polygon PoS",
   network: "matic",
   nativeCurrency: {
-    name: "MATIC",
-    symbol: "MATIC",
+    name: "POL",
+    symbol: "POL",
     decimals: 18
   },
   rpcUrls: {
@@ -105,11 +106,11 @@ var polygonMumbai = {
 };
 var polygonAmoy = {
   id: 80002,
-  name: "Polygon Amoy",
+  name: "Amoy Testnet",
   network: "polygon-amoy",
   nativeCurrency: {
-    name: "MATIC",
-    symbol: "MATIC",
+    name: "POL",
+    symbol: "POL",
     decimals: 18
   },
   rpcUrls: {
@@ -538,9 +539,22 @@ function TokenBalance({ address, token, className = "" }) {
   ] });
 }
 
+// src/components/Token/TokenIcon.tsx
+var import_jsx_runtime13 = require("react/jsx-runtime");
+function TokenIcon({ symbol, size = 24, className = "" }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    "div",
+    {
+      className: `rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold ${className}`,
+      style: { width: size, height: size, fontSize: size * 0.5 },
+      children: symbol ? symbol.charAt(0).toUpperCase() : "?"
+    }
+  );
+}
+
 // src/components/Swap/Swap.tsx
 var import_react6 = require("react");
-var import_jsx_runtime13 = require("react/jsx-runtime");
+var import_jsx_runtime14 = require("react/jsx-runtime");
 function Swap({ className = "", onSuccess, onError }) {
   const [fromAmount, setFromAmount] = (0, import_react6.useState)("");
   const [toAmount, setToAmount] = (0, import_react6.useState)("");
@@ -556,13 +570,13 @@ function Swap({ className = "", onSuccess, onError }) {
       setIsLoading(false);
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: `bg-white dark:bg-gray-900 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 ${className}`, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h3", { className: "text-lg font-bold mb-4", children: "Swap Tokens" }),
-    /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "space-y-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "bg-gray-50 dark:bg-gray-800 rounded-lg p-3", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("label", { className: "text-sm text-gray-600 dark:text-gray-400", children: "From" }),
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "flex items-center gap-2 mt-1", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: `bg-white dark:bg-gray-900 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 ${className}`, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { className: "text-lg font-bold mb-4", children: "Swap Tokens" }),
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "space-y-2", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "bg-gray-50 dark:bg-gray-800 rounded-lg p-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("label", { className: "text-sm text-gray-600 dark:text-gray-400", children: "From" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex items-center gap-2 mt-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
             "input",
             {
               type: "number",
@@ -572,14 +586,14 @@ function Swap({ className = "", onSuccess, onError }) {
               className: "flex-1 bg-transparent text-2xl font-medium outline-none"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { className: "px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg font-medium", children: "MATIC" })
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { className: "px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg font-medium", children: "MATIC" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "flex justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { className: "p-2 bg-purple-100 dark:bg-purple-900 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors", children: "\u2193" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "bg-gray-50 dark:bg-gray-800 rounded-lg p-3", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("label", { className: "text-sm text-gray-600 dark:text-gray-400", children: "To" }),
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "flex items-center gap-2 mt-1", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "flex justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { className: "p-2 bg-purple-100 dark:bg-purple-900 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors", children: "\u2193" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "bg-gray-50 dark:bg-gray-800 rounded-lg p-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("label", { className: "text-sm text-gray-600 dark:text-gray-400", children: "To" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex items-center gap-2 mt-1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
             "input",
             {
               type: "number",
@@ -589,11 +603,11 @@ function Swap({ className = "", onSuccess, onError }) {
               className: "flex-1 bg-transparent text-2xl font-medium outline-none"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { className: "px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg font-medium", children: "USDC" })
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { className: "px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg font-medium", children: "USDC" })
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       "button",
       {
         onClick: handleSwap,
@@ -602,7 +616,7 @@ function Swap({ className = "", onSuccess, onError }) {
         children: isLoading ? "Swapping..." : "Swap"
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-3 text-xs text-gray-500 dark:text-gray-400 text-center", children: "Powered by Polygon DEX Aggregators" })
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mt-3 text-xs text-gray-500 dark:text-gray-400 text-center", children: "Powered by Polygon DEX Aggregators" })
   ] });
 }
 
@@ -683,6 +697,7 @@ function usePolygonTransaction() {
   Swap,
   Token,
   TokenBalance,
+  TokenIcon,
   Transaction,
   TransactionButton,
   TransactionStatus,

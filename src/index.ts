@@ -11,7 +11,7 @@ export { Identity, Avatar, Name } from './components/Identity';
 export { Transaction, TransactionButton, TransactionStatus } from './components/Transaction';
 
 // Token Components
-export { Token, TokenBalance } from './components/Token';
+export { Token, TokenBalance, TokenIcon } from './components/Token';
 
 // Swap Components
 export { Swap } from './components/Swap';
@@ -40,6 +40,7 @@ export type {
   TransactionCall,
   TokenProps,
   TokenBalanceProps,
+  TokenIconProps,
   SwapProps,
   ThemeMode,
   PolygonKitProviderProps,

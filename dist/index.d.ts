@@ -97,6 +97,11 @@ interface TokenBalanceProps {
     token?: Address;
     className?: string;
 }
+interface TokenIconProps {
+    symbol: string;
+    size?: number;
+    className?: string;
+}
 interface SwapProps {
     className?: string;
     onSuccess?: (hash: string) => void;
@@ -136,6 +141,8 @@ declare function TransactionStatus({ hash, className }: TransactionStatusProps):
 declare function Token({ amount, symbol, className }: TokenProps): react_jsx_runtime.JSX.Element;
 
 declare function TokenBalance({ address, token, className }: TokenBalanceProps): react_jsx_runtime.JSX.Element;
+
+declare function TokenIcon({ symbol, size, className }: TokenIconProps): react_jsx_runtime.JSX.Element;
 
 declare function Swap({ className, onSuccess, onError }: SwapProps): react_jsx_runtime.JSX.Element;
 
@@ -183,4 +190,4 @@ declare const polygonAmoy: Chain;
 declare const polygonZkEVM: Chain;
 declare const defaultChains: Chain[];
 
-export { Avatar, type AvatarProps, type Chain, ConnectWallet, type ConnectWalletProps, Identity, type IdentityProps, Name, type NameProps, type PolygonKitConfig, PolygonKitProvider, type PolygonKitProviderProps, Swap, type SwapProps, type ThemeMode, Token, TokenBalance, type TokenBalanceProps, type TokenProps, Transaction, TransactionButton, type TransactionButtonProps, type TransactionCall, type TransactionProps, TransactionStatus, Wallet, WalletDropdown, type WalletDropdownProps, type WalletProps, defaultChains, formatBalance, parseTokenAmount, polygon, polygonAmoy, polygonMumbai, polygonZkEVM, shortenAddress, truncateText, usePolygonBalance, usePolygonKit, usePolygonTransaction };
+export { Avatar, type AvatarProps, type Chain, ConnectWallet, type ConnectWalletProps, Identity, type IdentityProps, Name, type NameProps, type PolygonKitConfig, PolygonKitProvider, type PolygonKitProviderProps, Swap, type SwapProps, type ThemeMode, Token, TokenBalance, type TokenBalanceProps, TokenIcon, type TokenIconProps, type TokenProps, Transaction, TransactionButton, type TransactionButtonProps, type TransactionCall, type TransactionProps, TransactionStatus, Wallet, WalletDropdown, type WalletDropdownProps, type WalletProps, defaultChains, formatBalance, parseTokenAmount, polygon, polygonAmoy, polygonMumbai, polygonZkEVM, shortenAddress, truncateText, usePolygonBalance, usePolygonKit, usePolygonTransaction };

@@ -101,6 +101,12 @@ export interface TokenBalanceProps {
   className?: string;
 }
 
+export interface TokenIconProps {
+  symbol: string;
+  size?: number;
+  className?: string;
+}
+
 export interface SwapProps {
   className?: string;
   onSuccess?: (hash: string) => void;
